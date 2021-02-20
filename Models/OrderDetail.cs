@@ -7,8 +7,11 @@ namespace GeorgianBudgetSaver.Models
 {
     public class OrderDetail
     {
-        public string OrderDetialId { get; set; }
-        public string OrderId { get; set; }
-        public string BookId { get; set; }
+        public string OrderDetialID { get; set; }
+        public string OrderID { get; set; }
+        public string BookID { get; set; }
+
+        public Order Order { get; set; }
+        public Book Book { get; set; }
     }
 }
