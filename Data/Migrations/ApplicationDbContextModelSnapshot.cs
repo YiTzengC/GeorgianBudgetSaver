@@ -15,7 +15,7 @@ namespace GeorgianBudgetSaver.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.11")
+                .HasAnnotation("ProductVersion", "3.1.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -53,14 +53,14 @@ namespace GeorgianBudgetSaver.Data.Migrations
                     b.Property<DateTime>("BoughtDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("CourseProgramId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("InStock")
                         .HasColumnType("bit");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("ProgramId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -69,7 +69,7 @@ namespace GeorgianBudgetSaver.Data.Migrations
 
                     b.HasIndex("AccountId");
 
-                    b.HasIndex("ProgramId");
+                    b.HasIndex("CourseProgramId");
 
                     b.ToTable("Books");
                 });
@@ -386,9 +386,9 @@ namespace GeorgianBudgetSaver.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("GeorgianBudgetSaver.Models.CourseProgram", "Program")
+                    b.HasOne("GeorgianBudgetSaver.Models.CourseProgram", "CourseProgram")
                         .WithMany("Books")
-                        .HasForeignKey("ProgramId")
+                        .HasForeignKey("CourseProgramId")
                         .HasConstraintName("FK_Books_ProgramId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();

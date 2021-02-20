@@ -38,10 +38,10 @@ namespace GeorgianBudgetSaver.Data
                 .HasForeignKey(p => p.AccountId)
                 .HasConstraintName("FK_Carts_AccountId");
             builder.Entity<Book>()
-               .HasOne(p => p.Program)
+               .HasOne(p => p.CourseProgram)
                .WithMany(c => c.Books)
                .OnDelete(DeleteBehavior.Restrict)
-               .HasForeignKey(p => p.ProgramId)
+               .HasForeignKey(p => p.CourseProgramId)
                .HasConstraintName("FK_Books_ProgramId");
             builder.Entity<Book>()
                .HasOne(p => p.Account)

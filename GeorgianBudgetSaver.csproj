@@ -26,6 +26,8 @@
     <Compile Remove="Data\Migrations\20210220161439_CreateInitialTables.Designer.cs" />
     <Compile Remove="Data\Migrations\20210220161703_CreateInitialTables.cs" />
     <Compile Remove="Data\Migrations\20210220161703_CreateInitialTables.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210220173310_CreateInitialTables.cs" />
+    <Compile Remove="Data\Migrations\20210220173310_CreateInitialTables.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

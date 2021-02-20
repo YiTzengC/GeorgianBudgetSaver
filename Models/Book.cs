@@ -18,8 +18,10 @@ namespace GeorgianBudgetSaver.Models
         public Decimal Price { get; set; }
         public bool InStock { get; set; }
 
-        public int ProgramId { get; set; }
-        public CourseProgram Program { set; get; }
+        [Display(Name = "CourseProgram")]
+        public int CourseProgramId { get; set; }
+        public CourseProgram CourseProgram { set; get; }
+        [Display(Name = "Account")]
         public int AccountId { get; set; }
         public Account Account { set; get; }
 

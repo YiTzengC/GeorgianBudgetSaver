@@ -72,7 +72,7 @@ namespace GeorgianBudgetSaver.Data.Migrations
                     BoughtDate = table.Column<DateTime>(nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     InStock = table.Column<bool>(nullable: false),
-                    ProgramId = table.Column<int>(nullable: false),
+                    CourseProgramId = table.Column<int>(nullable: false),
                     AccountId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -86,7 +86,7 @@ namespace GeorgianBudgetSaver.Data.Migrations
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Books_ProgramId",
-                        column: x => x.ProgramId,
+                        column: x => x.CourseProgramId,
                         principalTable: "CoursePrograms",
                         principalColumn: "CourseProgramId",
                         onDelete: ReferentialAction.Restrict);
@@ -151,9 +151,9 @@ namespace GeorgianBudgetSaver.Data.Migrations
                 column: "AccountId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Books_ProgramId",
+                name: "IX_Books_CourseProgramId",
                 table: "Books",
-                column: "ProgramId");
+                column: "CourseProgramId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Carts_AccountId",
