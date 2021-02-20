@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,20 +9,21 @@ namespace GeorgianBudgetSaver.Models
 {
     public class Book
     {
-        public string BookID { get; set; }
-        public string AccountID { get; set; }
-        public string ProgramID { get; set; }
+        public int BookId { get; set; }
         public string Title { get; set; }
         public string Author { get; set; }
         [DataType(DataType.Date)]
         public DateTime BoughtDate { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
         public Decimal Price { get; set; }
         public bool InStock { get; set; }
 
-        public Program Program { set; get; }
+        public int ProgramId { get; set; }
+        public CourseProgram Program { set; get; }
+        public int AccountId { get; set; }
         public Account Account { set; get; }
 
-        public List<Cart> Carts { get; set; }
-        public List<OrderDetail> OrderDetails { get; set; }
+        public ICollection<Cart> Carts { get; set; }
+        public ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

@@ -6,11 +6,39 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Migrations\20210220053002_CreateInitialTables.cs" />
+    <Compile Remove="Data\Migrations\20210220053002_CreateInitialTables.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210220053045_CreateInitialTables.cs" />
+    <Compile Remove="Data\Migrations\20210220053045_CreateInitialTables.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210220054333_CreateInitialTables.cs" />
+    <Compile Remove="Data\Migrations\20210220054333_CreateInitialTables.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210220152622_CreateInitialTables.cs" />
+    <Compile Remove="Data\Migrations\20210220152622_CreateInitialTables.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210220153827_CreateInitialTables.cs" />
+    <Compile Remove="Data\Migrations\20210220153827_CreateInitialTables.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210220155022_CreateInitialTables.cs" />
+    <Compile Remove="Data\Migrations\20210220155022_CreateInitialTables.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210220155301_CreateInitialTables.cs" />
+    <Compile Remove="Data\Migrations\20210220155301_CreateInitialTables.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210220161129_CreateInitialTables.cs" />
+    <Compile Remove="Data\Migrations\20210220161129_CreateInitialTables.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210220161439_CreateInitialTables.cs" />
+    <Compile Remove="Data\Migrations\20210220161439_CreateInitialTables.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210220161703_CreateInitialTables.cs" />
+    <Compile Remove="Data\Migrations\20210220161703_CreateInitialTables.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.11" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.11" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.12">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
   </ItemGroup>
 
 </Project>

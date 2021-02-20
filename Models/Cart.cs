@@ -8,13 +8,13 @@ namespace GeorgianBudgetSaver.Models
 {
     public class Cart
     {
-        public string CartID { get; set; }
-        public string BookID { get; set; }
-        public string AccountID { get; set; }
+        public int CartId { get; set; }
         [DataType(DataType.Date)]
         public DateTime DateCreated { get; set; }
 
+        public int BookId { get; set; }
         public Book Book { get; set; }
+        public int AccountId { get; set; }
         public Account Account { get; set; }
     }
 }

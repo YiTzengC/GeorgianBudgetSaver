@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace GeorgianBudgetSaver.Models
 {
-    public class Program
+    public class CourseProgram
     {
-        public string ProgramID { get; set; }
+        public int CourseProgramId { get; set; }
 
         public string Title { get; set; }
 
-        public List<Book> Books { get; set; }
+        public ICollection<Book> Books { get; set; }
     }
 }

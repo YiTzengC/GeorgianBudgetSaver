@@ -13,7 +13,7 @@ namespace GeorgianBudgetSaver.Data
         public DbSet<Book> Books { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
-        public DbSet<Program> Programs { get; set; }
+        public DbSet<CourseProgram> CoursePrograms { get; set; }
         public DbSet<Account> Accounts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -23,38 +23,44 @@ namespace GeorgianBudgetSaver.Data
             builder.Entity<Order>()
                 .HasOne(p => p.Account)
                 .WithMany(c => c.Orders)
-                .HasForeignKey(p => p.AccountID)
-                .HasConstraintName("FK_Orders_AccountID");
+                .HasForeignKey(p => p.AccountId)
+                .HasConstraintName("FK_Orders_AccountId");
             builder.Entity<Cart>()
                 .HasOne(p => p.Book)
                 .WithMany(c => c.Carts)
-                .HasForeignKey(p => p.BookID)
-                .HasConstraintName("FK_Carts_BookID");
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasForeignKey(p => p.BookId)
+                .HasConstraintName("FK_Carts_BookId");
             builder.Entity<Cart>()
                 .HasOne(p => p.Account)
                 .WithMany(c => c.Carts)
-                .HasForeignKey(p => p.AccountID)
-                .HasConstraintName("FK_Carts_AccountID");
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasForeignKey(p => p.AccountId)
+                .HasConstraintName("FK_Carts_AccountId");
             builder.Entity<Book>()
                .HasOne(p => p.Program)
                .WithMany(c => c.Books)
-               .HasForeignKey(p => p.ProgramID)
-               .HasConstraintName("FK_Books_ProgramID");
+               .OnDelete(DeleteBehavior.Restrict)
+               .HasForeignKey(p => p.ProgramId)
+               .HasConstraintName("FK_Books_ProgramId");
             builder.Entity<Book>()
                .HasOne(p => p.Account)
                .WithMany(c => c.Books)
-               .HasForeignKey(p => p.AccountID)
-               .HasConstraintName("FK_Books_AccountID");
+               .OnDelete(DeleteBehavior.Restrict)
+               .HasForeignKey(p => p.AccountId)
+               .HasConstraintName("FK_Books_AccountId");
             builder.Entity<OrderDetail>()
                .HasOne(p => p.Order)
                .WithMany(c => c.OrderDetails)
-               .HasForeignKey(p => p.OrderID)
-               .HasConstraintName("FK_OrderDetails_OrderID");
+               .OnDelete(DeleteBehavior.Restrict)
+               .HasForeignKey(p => p.OrderId)
+               .HasConstraintName("FK_OrderDetails_OrderId");
             builder.Entity<OrderDetail>()
                .HasOne(p => p.Book)
                .WithMany(c => c.OrderDetails)
-               .HasForeignKey(p => p.BookID)
-               .HasConstraintName("FK_OrderDetails_BookID");
+               .OnDelete(DeleteBehavior.Restrict)
+               .HasForeignKey(p => p.BookId)
+               .HasConstraintName("FK_OrderDetails_BookId");
 
         }
 

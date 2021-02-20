@@ -7,7 +7,7 @@ namespace GeorgianBudgetSaver.Models
 {
     public class Account
     {
-        public string AccountID { get; set; }
+        public int AccountId { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
 
