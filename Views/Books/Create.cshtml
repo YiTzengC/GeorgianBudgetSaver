@@ -1,12 +1,8 @@
 ﻿@model GeorgianBudgetSaver.Models.Book
 
-@{
-    ViewData["Title"] = "Create";
-}
 
-<h1>Create</h1>
+<h1>Add Book</h1>
 
-<h4>Book</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -38,7 +34,7 @@
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="CourseProgramId" class="control-label"></label>
+                <label asp-for="CourseProgramId" class="control-label">Program</label>
                 <select asp-for="CourseProgramId" class="form-control" asp-items="ViewBag.CourseProgramId">
                 </select>
             </div>

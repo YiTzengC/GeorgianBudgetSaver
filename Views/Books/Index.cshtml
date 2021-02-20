@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<GeorgianBudgetSaver.Models.Book>
 
-@{
+@*@{
     ViewData["Title"] = "Index";
-}
+}*@
 
-<h1>Index</h1>
+<h1>Book</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -28,10 +28,11 @@
                 @Html.DisplayNameFor(model => model.InStock)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CourseProgram)
+               @* @Html.DisplayNameFor(model => model.CourseProgram.Title)*@
+                Program
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Account)
+                @Html.DisplayNameFor(model => model.Account.Username)
             </th>
             <th></th>
         </tr>
@@ -55,10 +56,10 @@
                 @Html.DisplayFor(modelItem => item.InStock)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CourseProgram.CourseProgramId)
+                @Html.DisplayFor(modelItem => item.CourseProgram.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Account.AccountId)
+                @Html.DisplayFor(modelItem => item.Account.Username)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.BookId">Edit</a> |

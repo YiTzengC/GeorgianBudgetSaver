@@ -13,7 +13,6 @@ namespace GeorgianBudgetSaver.Controllers
     public class BooksController : Controller
     {
         private readonly ApplicationDbContext _context;
-
         public BooksController(ApplicationDbContext context)
         {
             _context = context;
@@ -86,8 +85,8 @@ namespace GeorgianBudgetSaver.Controllers
             {
                 return NotFound();
             }
-            ViewData["AccountId"] = new SelectList(_context.Accounts, "AccountId", "AccountId", book.AccountId);
-            ViewData["CourseProgramId"] = new SelectList(_context.CoursePrograms, "CourseProgramId", "CourseProgramId", book.CourseProgramId);
+            ViewData["AccountId"] = new SelectList(_context.Accounts, "AccountId", "Username", book.AccountId);
+            ViewData["CourseProgramId"] = new SelectList(_context.CoursePrograms, "CourseProgramId", "Title", book.CourseProgramId);
             return View(book);
         }
 
