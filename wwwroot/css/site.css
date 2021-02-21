@@ -79,3 +79,8 @@ body {
 .list-of-options {
     margin-top: 3rem;
 }
+.form-card {
+    border-radius: .5rem;
+    padding: 1rem;
+    background-color: white;
+}
