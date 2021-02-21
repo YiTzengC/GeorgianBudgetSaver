@@ -6,16 +6,24 @@
 
 <h1>Georgian Programs</h1>
 
-<p>
+@*<p>
     <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+</p>*@
+<table class="table table-striped table-dark">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
-            <th></th>
+            <th>
+                Edit
+            </th>
+            <th>
+                Detail
+            </th>
+            <th>
+                Delete
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -25,9 +33,13 @@
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.CourseProgramId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CourseProgramId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CourseProgramId">Delete</a>
+                <a type="button" class="btn btn-outline-light btn-sm" asp-action="Edit" asp-route-id="@item.CourseProgramId">Edit</a>
+            </td>
+            <td>
+                <a type="button" class="btn btn-outline-light btn-sm" asp-action="Details" asp-route-id="@item.CourseProgramId">Details</a>
+            </td>
+            <td>
+                <a type="button" class="btn btn-outline-light btn-sm" asp-action="Delete" asp-route-id="@item.CourseProgramId">Delete</a>
             </td>
         </tr>
 }
