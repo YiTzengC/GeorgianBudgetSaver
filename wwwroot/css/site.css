@@ -145,3 +145,19 @@ body {
 .table-view {
     padding: 2rem 3rem;
 }
+.register {
+    padding: 2rem 3rem;
+    background-color: #dee2e6e3;
+    width: 80%;
+    margin: 1rem auto;
+    margin-bottom: 5rem;
+    border-radius: .5rem;
+}
+.login {
+    padding: 2rem 3rem;
+    background-color: #dee2e6e3;
+    width: 90%;
+    margin: 1rem auto;
+    margin-bottom: 5rem;
+    border-radius: .5rem;
+}

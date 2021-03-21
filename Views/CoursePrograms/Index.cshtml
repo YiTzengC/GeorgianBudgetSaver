@@ -15,24 +15,28 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Title)
                 </th>
-                <th>
-                    Edit
-                </th>
-                <th>
-                    Detail
-                </th>
-                <th>
-                    Delete
-                </th>
+                @if (User.IsInRole("Administrator"))
+                {
+                    <th>
+                        Edit
+                    </th>
+                    <th>
+                        Detail
+                    </th>
+                    <th>
+                        Delete
+                    </th>
+                }
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </td>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                @if (User.IsInRole("Administrator")) { 
                     <td>
                         <a type="button" class="btn btn-outline-light btn-sm" asp-action="Edit" asp-route-id="@item.CourseProgramId">Edit</a>
                     </td>
@@ -42,7 +46,8 @@
                     <td>
                         <a type="button" class="btn btn-outline-light btn-sm" asp-action="Delete" asp-route-id="@item.CourseProgramId">Delete</a>
                     </td>
-                </tr>
+                }
+            </tr>
             }
         </tbody>
     </table>

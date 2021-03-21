@@ -3,21 +3,22 @@
 @*@{
     ViewData["Title"] = "Details";
 }*@
+<div class="table-view">
+    <h1>Program Info</h1>
 
-<h1>Program Info</h1>
-
-<div class="col-md-6 form-card">
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-    </dl>
-    <div>
-        <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model.CourseProgramId">Edit</a>
-        <a class="btn btn-danger" asp-action="Index">Cancel</a>
+    <div class="col-md-6 form-card">
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+        </dl>
+        <div>
+            <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model.CourseProgramId">Edit</a>
+            <a class="btn btn-danger" asp-action="Index">Cancel</a>
+        </div>
     </div>
 </div>

@@ -31,45 +31,56 @@
                     @* @Html.DisplayNameFor(model => model.CourseProgram.Title)*@
                     Program
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Account.Username)
-                </th>
-                <th>
-                    Edit
-                </th>
-                <th>
-                    Detail
-                </th>
-                <th>
-                    Delete
-                </th>
+                @*<th>
+            @Html.DisplayNameFor(model => model.Account.Username)
+        </th>*@
+                @if (User.IsInRole("Administrator"))
+                {
+                    <th>
+                        Edit
+                    </th>
+                    <th>
+                        Detail
+                    </th>
+                    <th>
+                        Delete
+                    </th>
+                }
+                else if (User.IsInRole("Customer"))
+                {
+                    <th>
+                        Purchase
+                    </th>
+                }
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Author)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.BoughtDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Price)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.InStock)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CourseProgram.Title)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Account.Username)
-                    </td>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BoughtDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InStock)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CourseProgram.Title)
+                </td>
+                @*<td>
+            @Html.DisplayFor(modelItem => item.Account.Username)
+        </td>*@
+                @if (User.IsInRole("Administrator"))
+                {
                     <td>
                         <a type="button" class="btn btn-outline-light btn-sm" asp-action="Edit" asp-route-id="@item.BookId">Edit</a>
                     </td>
@@ -79,7 +90,14 @@
                     <td>
                         <a type="button" class="btn btn-outline-light btn-sm" asp-action="Delete" asp-route-id="@item.BookId">Delete</a>
                     </td>
-                </tr>
+                }
+                else if (User.IsInRole("Customer"))
+                {
+                    <th>
+                        <a type="button" class="btn btn-outline-light btn-sm" asp-route-id="@item.BookId">Add To Cart</a>
+                    </th>
+                }
+            </tr>
             }
         </tbody>
     </table>

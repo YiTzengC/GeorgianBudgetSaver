@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GeorgianBudgetSaver.Data;
 using GeorgianBudgetSaver.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GeorgianBudgetSaver.Controllers
 {
+    [Authorize(Roles ="Administrator")]
     public class BooksController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -19,9 +21,10 @@ namespace GeorgianBudgetSaver.Controllers
         }
 
         // GET: Books
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Books.Include(b => b.Account).Include(b => b.CourseProgram);
+            var applicationDbContext = _context.Books.Include(b => b.CourseProgram);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -34,7 +37,7 @@ namespace GeorgianBudgetSaver.Controllers
             }
 
             var book = await _context.Books
-                .Include(b => b.Account)
+                /*.Include(b => b.Account)*/
                 .Include(b => b.CourseProgram)
                 .FirstOrDefaultAsync(m => m.BookId == id);
             if (book == null)
@@ -48,7 +51,7 @@ namespace GeorgianBudgetSaver.Controllers
         // GET: Books/Create
         public IActionResult Create()
         {
-            ViewData["AccountId"] = new SelectList(_context.Accounts, "AccountId", "Username");
+            /*ViewData["AccountId"] = new SelectList(_context.Accounts, "AccountId", "Username");*/
             ViewData["CourseProgramId"] = new SelectList(_context.CoursePrograms, "CourseProgramId", "Title");
             
             return View();
@@ -67,7 +70,7 @@ namespace GeorgianBudgetSaver.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AccountId"] = new SelectList(_context.Accounts, "AccountId", "AccountId", book.AccountId);
+           /* ViewData["AccountId"] = new SelectList(_context.Accounts, "AccountId", "AccountId", book.AccountId);*/
             ViewData["CourseProgramId"] = new SelectList(_context.CoursePrograms, "CourseProgramId", "CourseProgramId", book.CourseProgramId);
             return View(book);
         }
@@ -85,7 +88,7 @@ namespace GeorgianBudgetSaver.Controllers
             {
                 return NotFound();
             }
-            ViewData["AccountId"] = new SelectList(_context.Accounts, "AccountId", "Username", book.AccountId);
+            /*ViewData["AccountId"] = new SelectList(_context.Accounts, "AccountId", "Username", book.AccountId);*/
             ViewData["CourseProgramId"] = new SelectList(_context.CoursePrograms, "CourseProgramId", "Title", book.CourseProgramId);
             return View(book);
         }
@@ -122,7 +125,7 @@ namespace GeorgianBudgetSaver.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AccountId"] = new SelectList(_context.Accounts, "AccountId", "AccountId", book.AccountId);
+            /*ViewData["AccountId"] = new SelectList(_context.Accounts, "AccountId", "AccountId", book.AccountId);*/
             ViewData["CourseProgramId"] = new SelectList(_context.CoursePrograms, "CourseProgramId", "CourseProgramId", book.CourseProgramId);
             return View(book);
         }
@@ -136,7 +139,7 @@ namespace GeorgianBudgetSaver.Controllers
             }
 
             var book = await _context.Books
-                .Include(b => b.Account)
+                /*.Include(b => b.Account)*/
                 .Include(b => b.CourseProgram)
                 .FirstOrDefaultAsync(m => m.BookId == id);
             if (book == null)

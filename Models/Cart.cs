@@ -14,7 +14,7 @@ namespace GeorgianBudgetSaver.Models
 
         public int BookId { get; set; }
         public Book Book { get; set; }
-        public int AccountId { get; set; }
-        public Account Account { get; set; }
+       /* public int AccountId { get; set; }
+        public Account Account { get; set; }*/
     }
 }

@@ -3,24 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GeorgianBudgetSaver.Data.Migrations
 {
-    public partial class CreateInitialTables : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Accounts",
-                columns: table => new
-                {
-                    AccountId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Accounts", x => x.AccountId);
-                });
-
             migrationBuilder.CreateTable(
                 name: "CoursePrograms",
                 columns: table => new
@@ -47,18 +33,11 @@ namespace GeorgianBudgetSaver.Data.Migrations
                     Phone = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
                     OrderDate = table.Column<DateTime>(nullable: false),
-                    Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    AccountId = table.Column<int>(nullable: false)
+                    Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Orders", x => x.OrderId);
-                    table.ForeignKey(
-                        name: "FK_Orders_AccountId",
-                        column: x => x.AccountId,
-                        principalTable: "Accounts",
-                        principalColumn: "AccountId",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -72,18 +51,11 @@ namespace GeorgianBudgetSaver.Data.Migrations
                     BoughtDate = table.Column<DateTime>(nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     InStock = table.Column<bool>(nullable: false),
-                    CourseProgramId = table.Column<int>(nullable: false),
-                    AccountId = table.Column<int>(nullable: false)
+                    CourseProgramId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Books", x => x.BookId);
-                    table.ForeignKey(
-                        name: "FK_Books_AccountId",
-                        column: x => x.AccountId,
-                        principalTable: "Accounts",
-                        principalColumn: "AccountId",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Books_ProgramId",
                         column: x => x.CourseProgramId,
@@ -99,18 +71,11 @@ namespace GeorgianBudgetSaver.Data.Migrations
                     CartId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DateCreated = table.Column<DateTime>(nullable: false),
-                    BookId = table.Column<int>(nullable: false),
-                    AccountId = table.Column<int>(nullable: false)
+                    BookId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Carts", x => x.CartId);
-                    table.ForeignKey(
-                        name: "FK_Carts_AccountId",
-                        column: x => x.AccountId,
-                        principalTable: "Accounts",
-                        principalColumn: "AccountId",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Carts_BookId",
                         column: x => x.BookId,
@@ -146,19 +111,9 @@ namespace GeorgianBudgetSaver.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Books_AccountId",
-                table: "Books",
-                column: "AccountId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Books_CourseProgramId",
                 table: "Books",
                 column: "CourseProgramId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Carts_AccountId",
-                table: "Carts",
-                column: "AccountId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Carts_BookId",
@@ -174,11 +129,6 @@ namespace GeorgianBudgetSaver.Data.Migrations
                 name: "IX_OrderDetails_OrderId",
                 table: "OrderDetails",
                 column: "OrderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Orders_AccountId",
-                table: "Orders",
-                column: "AccountId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -197,9 +147,6 @@ namespace GeorgianBudgetSaver.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "CoursePrograms");
-
-            migrationBuilder.DropTable(
-                name: "Accounts");
         }
     }
 }

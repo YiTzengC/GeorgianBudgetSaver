@@ -10,34 +10,16 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GeorgianBudgetSaver.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210220173326_CreateInitialTables")]
-    partial class CreateInitialTables
+    [Migration("20210320225105_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.12")
+                .HasAnnotation("ProductVersion", "3.1.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("GeorgianBudgetSaver.Models.Account", b =>
-                {
-                    b.Property<int>("AccountId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Username")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("AccountId");
-
-                    b.ToTable("Accounts");
-                });
 
             modelBuilder.Entity("GeorgianBudgetSaver.Models.Book", b =>
                 {
@@ -45,9 +27,6 @@ namespace GeorgianBudgetSaver.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AccountId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Author")
                         .HasColumnType("nvarchar(max)");
@@ -69,8 +48,6 @@ namespace GeorgianBudgetSaver.Data.Migrations
 
                     b.HasKey("BookId");
 
-                    b.HasIndex("AccountId");
-
                     b.HasIndex("CourseProgramId");
 
                     b.ToTable("Books");
@@ -83,9 +60,6 @@ namespace GeorgianBudgetSaver.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AccountId")
-                        .HasColumnType("int");
-
                     b.Property<int>("BookId")
                         .HasColumnType("int");
 
@@ -93,8 +67,6 @@ namespace GeorgianBudgetSaver.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("CartId");
-
-                    b.HasIndex("AccountId");
 
                     b.HasIndex("BookId");
 
@@ -123,9 +95,6 @@ namespace GeorgianBudgetSaver.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AccountId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
@@ -151,8 +120,6 @@ namespace GeorgianBudgetSaver.Data.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("OrderId");
-
-                    b.HasIndex("AccountId");
 
                     b.ToTable("Orders");
                 });
@@ -381,13 +348,6 @@ namespace GeorgianBudgetSaver.Data.Migrations
 
             modelBuilder.Entity("GeorgianBudgetSaver.Models.Book", b =>
                 {
-                    b.HasOne("GeorgianBudgetSaver.Models.Account", "Account")
-                        .WithMany("Books")
-                        .HasForeignKey("AccountId")
-                        .HasConstraintName("FK_Books_AccountId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("GeorgianBudgetSaver.Models.CourseProgram", "CourseProgram")
                         .WithMany("Books")
                         .HasForeignKey("CourseProgramId")
@@ -398,28 +358,11 @@ namespace GeorgianBudgetSaver.Data.Migrations
 
             modelBuilder.Entity("GeorgianBudgetSaver.Models.Cart", b =>
                 {
-                    b.HasOne("GeorgianBudgetSaver.Models.Account", "Account")
-                        .WithMany("Carts")
-                        .HasForeignKey("AccountId")
-                        .HasConstraintName("FK_Carts_AccountId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("GeorgianBudgetSaver.Models.Book", "Book")
                         .WithMany("Carts")
                         .HasForeignKey("BookId")
                         .HasConstraintName("FK_Carts_BookId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("GeorgianBudgetSaver.Models.Order", b =>
-                {
-                    b.HasOne("GeorgianBudgetSaver.Models.Account", "Account")
-                        .WithMany("Orders")
-                        .HasForeignKey("AccountId")
-                        .HasConstraintName("FK_Orders_AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 

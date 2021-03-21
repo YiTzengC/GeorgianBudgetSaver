@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GeorgianBudgetSaver.Data;
 using GeorgianBudgetSaver.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GeorgianBudgetSaver.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class CourseProgramsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -18,7 +20,7 @@ namespace GeorgianBudgetSaver.Controllers
         {
             _context = context;
         }
-
+        [AllowAnonymous]
         // GET: CoursePrograms
         public async Task<IActionResult> Index()
         {

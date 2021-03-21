@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -6,28 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\Migrations\20210220053002_CreateInitialTables.cs" />
-    <Compile Remove="Data\Migrations\20210220053002_CreateInitialTables.Designer.cs" />
-    <Compile Remove="Data\Migrations\20210220053045_CreateInitialTables.cs" />
-    <Compile Remove="Data\Migrations\20210220053045_CreateInitialTables.Designer.cs" />
-    <Compile Remove="Data\Migrations\20210220054333_CreateInitialTables.cs" />
-    <Compile Remove="Data\Migrations\20210220054333_CreateInitialTables.Designer.cs" />
-    <Compile Remove="Data\Migrations\20210220152622_CreateInitialTables.cs" />
-    <Compile Remove="Data\Migrations\20210220152622_CreateInitialTables.Designer.cs" />
-    <Compile Remove="Data\Migrations\20210220153827_CreateInitialTables.cs" />
-    <Compile Remove="Data\Migrations\20210220153827_CreateInitialTables.Designer.cs" />
-    <Compile Remove="Data\Migrations\20210220155022_CreateInitialTables.cs" />
-    <Compile Remove="Data\Migrations\20210220155022_CreateInitialTables.Designer.cs" />
-    <Compile Remove="Data\Migrations\20210220155301_CreateInitialTables.cs" />
-    <Compile Remove="Data\Migrations\20210220155301_CreateInitialTables.Designer.cs" />
-    <Compile Remove="Data\Migrations\20210220161129_CreateInitialTables.cs" />
-    <Compile Remove="Data\Migrations\20210220161129_CreateInitialTables.Designer.cs" />
-    <Compile Remove="Data\Migrations\20210220161439_CreateInitialTables.cs" />
-    <Compile Remove="Data\Migrations\20210220161439_CreateInitialTables.Designer.cs" />
-    <Compile Remove="Data\Migrations\20210220161703_CreateInitialTables.cs" />
-    <Compile Remove="Data\Migrations\20210220161703_CreateInitialTables.Designer.cs" />
-    <Compile Remove="Data\Migrations\20210220173310_CreateInitialTables.cs" />
-    <Compile Remove="Data\Migrations\20210220173310_CreateInitialTables.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210320224823_InitialCreate1.cs" />
+    <Compile Remove="Data\Migrations\20210320224823_InitialCreate1.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
