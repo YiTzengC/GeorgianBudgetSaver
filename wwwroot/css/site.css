@@ -84,6 +84,9 @@ body {
     padding: 1rem;
     background-color: white;
 }
+.program-container {
+    padding: 2rem 10rem;
+}
 .program {
     background-color:white;
     height: 35rem;

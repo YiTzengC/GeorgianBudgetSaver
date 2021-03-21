@@ -24,8 +24,17 @@ namespace GeorgianBudgetSaver.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
+            
             var applicationDbContext = _context.Books.Include(b => b.CourseProgram);
             return View(await applicationDbContext.ToListAsync());
+        }
+        [AllowAnonymous]
+        public async Task<IActionResult> ListByProgram(int? id)
+        {
+            var book = await _context.Books
+                 .Include(b => b.CourseProgram)
+                 .Where(m => m.CourseProgramId == id).ToListAsync();
+            return View(book);
         }
 
         // GET: Books/Details/5
@@ -165,5 +174,7 @@ namespace GeorgianBudgetSaver.Controllers
         {
             return _context.Books.Any(e => e.BookId == id);
         }
+
+
     }
 }
