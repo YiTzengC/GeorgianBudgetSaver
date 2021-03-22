@@ -1,59 +1,44 @@
 ﻿@model IEnumerable<GeorgianBudgetSaver.Models.CourseProgram>
-
-@*@{
-    ViewData["Title"] = "Index";
-}*@
 <div class="program-container">
     <h1>Georgian Programs</h1>
-
-    @*<p>
-            <a asp-action="Create">Create New</a>
-        </p>*@
-    <table class="table table-striped table-dark table-hover table-bordered">
+    <table class="table table-striped table-dark table-hover table-bordered align-middle">
         <thead>
             <tr>
-                <th style="width:60%;">
+                <th>
                     @Html.DisplayNameFor(model => model.Title)
                 </th>
                 @if (User.IsInRole("Administrator"))
                 {
-                    <th>
-                        Edit
-                    </th>
-                    <th>
-                        Detail
-                    </th>
-                    <th>
-                        Delete
+                    <th style="text-align:center; width:20%;">
+                        Action
                     </th>
                 }
-                <th>
-                    Books 
+                <th style="text-align:center; width:10%;">
+                    Books
                 </th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <td style="text-align:center">
+                            <a type="button" class="btn btn-edit" asp-action="Edit" asp-route-id="@item.CourseProgramId"><i class="bi bi-pencil-square"></i></a>
+                            <a type="button" class="btn btn-delete" asp-action="Delete" asp-route-id="@item.CourseProgramId"><i class="bi bi-trash-fill"></i></a>
+                        </td>
+                    }
+                <td style="text-align:center">
+                    <form asp-controller="Books" asp-action="Index" method="post">
+                        <input type="hidden" asp-for="@item.CourseProgramId" name="id" />
+                        <button type="submit" class="btn btn-search-icon btn-sm"><i class="bi bi-search"></i></button>
+                    </form>
                 </td>
-                @if (User.IsInRole("Administrator")) { 
-                    <td>
-                        <a type="button" class="btn btn-outline-light btn-sm" asp-action="Edit" asp-route-id="@item.CourseProgramId">Edit</a>
-                    </td>
-                    <td>
-                        <a type="button" class="btn btn-outline-light btn-sm" asp-action="Details" asp-route-id="@item.CourseProgramId">Details</a>
-                    </td>
-                    <td>
-                        <a type="button" class="btn btn-outline-light btn-sm" asp-action="Delete" asp-route-id="@item.CourseProgramId">Delete</a>
-                    </td>
-                }
-                <td>
-                    <a type="button" class="btn btn-outline-light btn-sm" asp-controller="Books" asp-action="ListByProgram" asp-route-id="@item.CourseProgramId">Browse</a>
-                </td>
-            </tr>
+                </tr>
             }
         </tbody>
     </table>

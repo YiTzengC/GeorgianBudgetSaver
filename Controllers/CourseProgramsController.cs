@@ -126,18 +126,24 @@ namespace GeorgianBudgetSaver.Controllers
                 return NotFound();
             }
 
-            var courseProgram = await _context.CoursePrograms
-                .FirstOrDefaultAsync(m => m.CourseProgramId == id);
+            /*var courseProgram = await _context.CoursePrograms
+                .FirstOrDefaultAsync(m => m.CourseProgramId == id);*/
+            var courseProgram = await _context.CoursePrograms.FindAsync(id);
+
             if (courseProgram == null)
             {
                 return NotFound();
             }
 
-            return View(courseProgram);
+            _context.CoursePrograms.Remove(courseProgram);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
+            /*return View(courseProgram);*/
         }
 
         // POST: CoursePrograms/Delete/5
-        [HttpPost, ActionName("Delete")]
+        /*[HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -145,7 +151,7 @@ namespace GeorgianBudgetSaver.Controllers
             _context.CoursePrograms.Remove(courseProgram);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
+        }*/
 
         private bool CourseProgramExists(int id)
         {
