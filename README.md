@@ -18,3 +18,6 @@ https://georgianbudgetsaver.azurewebsites.net
 # Reference:
 ### CSS Library:
 - https://getbootstrap.com/
+# Assignment2 Bonus:
+
+- added search funtionality
