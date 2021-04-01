@@ -33,6 +33,12 @@ namespace GeorgianBudgetSaver
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddAuthentication()
+                .AddGoogle(option =>
+                {
+                    option.ClientId = Configuration.GetSection("Authentication:Google")["ClientID"];
+                    option.ClientSecret = Configuration.GetSection("Authentication:Google")["ClientSecret"];
+                });
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
