@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using GeorgianBudgetSaver.Data;
 using GeorgianBudgetSaver.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace GeorgianBudgetSaver.Controllers
 {
@@ -45,8 +48,21 @@ namespace GeorgianBudgetSaver.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Books.Include(b => b.CourseProgram);
-            return View(await applicationDbContext.ToListAsync());
+            var applicationDbContext = await _context.Books.Include(b => b.CourseProgram).ToListAsync();
+            // do not dislpay item in cart
+            if (HttpContext.Session.GetString("cart") != null) {
+                List<Cart> cartList = JsonConvert.DeserializeObject<List<Cart>>(HttpContext.Session.GetString("cart"));
+                cartList.ForEach((obj) =>
+                {
+                    Cart cart = new Cart
+                    {
+                        BookId = obj.BookId,
+                        Quantity = obj.Quantity
+                    };
+                    applicationDbContext =  applicationDbContext.Where(b => b.BookId != obj.BookId).ToList();
+                });
+            }
+            return View(applicationDbContext);
         }
 
         /*[AllowAnonymous]
@@ -100,7 +116,7 @@ namespace GeorgianBudgetSaver.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BookId,Title,Author,BoughtDate,Price,InStock,CourseProgramId,AccountId")] Book book)
+        public async Task<IActionResult> Create([Bind("BookId,Title,Author,BoughtDate,Price,InStock,CourseProgramId")] Book book)
         {
             if (ModelState.IsValid)
             {
@@ -207,6 +223,42 @@ namespace GeorgianBudgetSaver.Controllers
         private bool BookExists(int id)
         {
             return _context.Books.Any(e => e.BookId == id);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public IActionResult AddToCart(int productId, int quantity)
+        {
+            string jsonString = "";
+            if (HttpContext.Session.GetString("cart") == null)
+            {
+                List<Cart> cartlist = new List<Cart>();
+                cartlist.Add(
+                    new Cart
+                    {
+                        BookId = productId,
+                        Quantity = quantity
+                    }
+                    );
+                jsonString = System.Text.Json.JsonSerializer.Serialize(cartlist);
+
+            }
+            else
+            {
+                List<Cart> cartList = JsonConvert.DeserializeObject<List<Cart>>(HttpContext.Session.GetString("cart"));
+                cartList.Add(
+                    new Cart
+                    {
+                        BookId = productId,
+                        Quantity = quantity
+                    });
+                jsonString = System.Text.Json.JsonSerializer.Serialize(cartList);
+            }
+
+
+            HttpContext.Session.SetString("cart", jsonString);
+
+            return RedirectToAction(nameof(Index));
         }
 
 

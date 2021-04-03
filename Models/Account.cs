@@ -13,6 +13,5 @@ namespace GeorgianBudgetSaver.Models
 
         public List<Book> Books { get; set; }
         public List<Order> Orders { get; set; }
-        public List<Cart> Carts { get; set; }
     }
 }

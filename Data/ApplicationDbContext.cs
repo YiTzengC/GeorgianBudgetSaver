@@ -9,7 +9,7 @@ namespace GeorgianBudgetSaver.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
-        public DbSet<Cart> Carts { get; set; }
+       /* public DbSet<Cart> Carts { get; set; }*/
         public DbSet<Book> Books { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
@@ -25,12 +25,12 @@ namespace GeorgianBudgetSaver.Data
                 .WithMany(c => c.Orders)
                 .HasForeignKey(p => p.AccountId)
                 .HasConstraintName("FK_Orders_AccountId");*/
-            builder.Entity<Cart>()
+            /*builder.Entity<Cart>()
                 .HasOne(p => p.Book)
                 .WithMany(c => c.Carts)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasForeignKey(p => p.BookId)
-                .HasConstraintName("FK_Carts_BookId");
+                .HasConstraintName("FK_Carts_BookId");*/
            /* builder.Entity<Cart>()
                 .HasOne(p => p.Account)
                 .WithMany(c => c.Carts)

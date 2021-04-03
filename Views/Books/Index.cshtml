@@ -72,11 +72,15 @@
                             <a type="button" class="btn btn-delete" asp-action="Delete" asp-route-id="@item.BookId"><i class="bi bi-trash-fill"></i></a>
                         </td>
                     }
-                    else if (User.IsInRole("Customer"))
+                    else
                     {
-                        <td style="text-align:center">
-                            <a type="button" class="btn btn-outline-light btn-sm" asp-route-id="@item.BookId"><i class="bi bi-cart-plus-fill" style="font-size:1rem; line-height:inherit"></i> Add To Cart</a>
-                        </td>
+                <td style="text-align:center">
+                    <form asp-action="AddToCart" method="post">
+                        <input type="hidden" asp-for="@item.BookId" name="productId" />
+                        <input type="hidden" value="1" name="quantity"/>
+                        <button type="submit" class="btn btn-outline-light btn-sm"><i class="bi bi-cart-plus-fill" style="font-size:1rem; line-height:inherit"></i> Add To Cart</button>
+                    </form>
+                </td>
                     }
                 </tr>
                 }

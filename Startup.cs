@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace GeorgianBudgetSaver
 {
@@ -39,6 +40,9 @@ namespace GeorgianBudgetSaver
                     option.ClientId = Configuration.GetSection("Authentication:Google")["ClientID"];
                     option.ClientSecret = Configuration.GetSection("Authentication:Google")["ClientSecret"];
                 });
+            services.AddDataProtection();
+            services.AddSession();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
@@ -46,6 +50,12 @@ namespace GeorgianBudgetSaver
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCookiePolicy(
+                new CookiePolicyOptions
+                {
+                    Secure = CookieSecurePolicy.Always
+                });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -64,6 +74,9 @@ namespace GeorgianBudgetSaver
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSession();
+            
 
             app.UseEndpoints(endpoints =>
             {
