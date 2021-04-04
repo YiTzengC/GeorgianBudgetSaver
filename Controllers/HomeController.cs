@@ -1,16 +1,8 @@
 ﻿using GeorgianBudgetSaver.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.DataProtection;
-using Microsoft.EntityFrameworkCore;
-using System.Text.Json;
-using Newtonsoft.Json;
 
 namespace GeorgianBudgetSaver.Controllers
 {

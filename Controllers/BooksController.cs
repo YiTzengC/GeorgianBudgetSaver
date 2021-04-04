@@ -14,7 +14,6 @@ using Newtonsoft.Json;
 
 namespace GeorgianBudgetSaver.Controllers
 {
-    [Authorize(Roles ="Administrator")]
     public class BooksController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -23,12 +22,15 @@ namespace GeorgianBudgetSaver.Controllers
         {
             _context = context;
         }
-        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Index(int? id, string searchString)
         {
             var books = from m in _context.Books.Include(b => b.CourseProgram)
                         select m;
+            if (!User.IsInRole("Administrator"))
+            {
+                books = books.Where(b => b.InStock == true);
+            }
             if (id != null)
             {
                 Console.WriteLine($"id: {id}");
@@ -42,20 +44,24 @@ namespace GeorgianBudgetSaver.Controllers
                 Console.WriteLine($"searchString: {searchString}");
                 books = books.Where(s => s.Title.Contains(searchString));
             }
+
             return View(await books.ToListAsync());
         }
         // GET: Books
-        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = await _context.Books.Include(b => b.CourseProgram).ToListAsync();
             // do not dislpay item in cart
-            if (HttpContext.Session.GetString("cart") != null) {
+            if (HttpContext.Session.GetString("cart") != null)
+            {
                 List<Cart> cartList = JsonConvert.DeserializeObject<List<Cart>>(HttpContext.Session.GetString("cart"));
                 cartList.ForEach((obj) =>
                 {
-                    applicationDbContext =  applicationDbContext.Where(b => b.BookId != obj.BookId).ToList();
+                    applicationDbContext = applicationDbContext.Where(b => b.BookId != obj.BookId).ToList();
                 });
+            }
+            if (!User.IsInRole("Administrator")) {
+                applicationDbContext = applicationDbContext.Where(b => b.InStock == true).ToList();
             }
             return View(applicationDbContext);
         }
@@ -78,6 +84,7 @@ namespace GeorgianBudgetSaver.Controllers
         }*/
 
         // GET: Books/Details/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -96,16 +103,16 @@ namespace GeorgianBudgetSaver.Controllers
 
             return View(book);
         }
-
+        [Authorize(Roles = "Administrator")]
         // GET: Books/Create
         public IActionResult Create()
         {
             /*ViewData["AccountId"] = new SelectList(_context.Accounts, "AccountId", "Username");*/
             ViewData["CourseProgramId"] = new SelectList(_context.CoursePrograms, "CourseProgramId", "Title");
-            
+
             return View();
         }
-
+        [Authorize(Roles = "Administrator")]
         // POST: Books/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -119,11 +126,11 @@ namespace GeorgianBudgetSaver.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-           /* ViewData["AccountId"] = new SelectList(_context.Accounts, "AccountId", "AccountId", book.AccountId);*/
+            /* ViewData["AccountId"] = new SelectList(_context.Accounts, "AccountId", "AccountId", book.AccountId);*/
             ViewData["CourseProgramId"] = new SelectList(_context.CoursePrograms, "CourseProgramId", "CourseProgramId", book.CourseProgramId);
             return View(book);
         }
-
+        [Authorize(Roles = "Administrator")]
         // GET: Books/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -147,6 +154,7 @@ namespace GeorgianBudgetSaver.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int id, [Bind("BookId,Title,Author,BoughtDate,Price,InStock,CourseProgramId,AccountId")] Book book)
         {
             if (id != book.BookId)
@@ -180,6 +188,7 @@ namespace GeorgianBudgetSaver.Controllers
         }
 
         // GET: Books/Delete/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -220,7 +229,6 @@ namespace GeorgianBudgetSaver.Controllers
             return _context.Books.Any(e => e.BookId == id);
         }
 
-        [AllowAnonymous]
         [HttpPost]
         public IActionResult AddToCart(int productId, int quantity, decimal price)
         {
@@ -257,6 +265,21 @@ namespace GeorgianBudgetSaver.Controllers
             HttpContext.Session.SetString("cart", jsonString);
 
             return RedirectToAction(nameof(Index));
+        }
+        [Authorize(Roles = "Customer")]
+        public async Task<IActionResult> UpdateStock()
+        {
+            List<Cart> cartList = JsonConvert.DeserializeObject<List<Cart>>(HttpContext.Session.GetString("cart"));
+            var applicationDbContext = await _context.Books.Include(b => b.CourseProgram).ToListAsync();
+            cartList.ForEach(async (obj) =>
+            {
+                var book = applicationDbContext.Find(b => b.BookId == obj.BookId);
+                book.InStock = false;
+                _context.Update(book);
+                _context.SaveChanges();
+            });
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Orders");
         }
 
 

@@ -129,7 +129,7 @@ namespace GeorgianBudgetSaver.Controllers
                   },
                 },
                 Mode = "payment",
-                SuccessUrl ="https://" + Request.Host + "/Orders/SaveOrder",
+                SuccessUrl ="https://" + Request.Host + "/Orders/Create",
                 CancelUrl = "https://" + Request.Host + "/Carts/Index",
             };
             var service = new SessionService();

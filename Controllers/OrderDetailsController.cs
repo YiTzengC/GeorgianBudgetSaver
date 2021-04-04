@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GeorgianBudgetSaver.Data;
 using GeorgianBudgetSaver.Models;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GeorgianBudgetSaver.Controllers
 {
@@ -46,30 +49,24 @@ namespace GeorgianBudgetSaver.Controllers
             return View(orderDetail);
         }
 
-        // GET: OrderDetails/Create
+
+
+        [Authorize(Roles = "Customer")]
         public IActionResult Create()
         {
-            ViewData["BookId"] = new SelectList(_context.Books, "BookId", "BookId");
-            ViewData["OrderId"] = new SelectList(_context.Orders, "OrderId", "OrderId");
-            return View();
-        }
-
-        // POST: OrderDetails/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OrderDetailId,OrderId,BookId")] OrderDetail orderDetail)
-        {
-            if (ModelState.IsValid)
+            Models.Order order = JsonConvert.DeserializeObject<Models.Order>(HttpContext.Session.GetString("order"));
+            List<Cart> cartList = JsonConvert.DeserializeObject<List<Cart>>(HttpContext.Session.GetString("cart"));
+            cartList.ForEach(cart =>
             {
-                _context.Add(orderDetail);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["BookId"] = new SelectList(_context.Books, "BookId", "BookId", orderDetail.BookId);
-            ViewData["OrderId"] = new SelectList(_context.Orders, "OrderId", "OrderId", orderDetail.OrderId);
-            return View(orderDetail);
+                _context.Add(new OrderDetail
+                {
+                    OrderId = order.OrderId,
+                    BookId = cart.BookId
+                });
+                _context.SaveChanges();
+
+            });
+            return RedirectToAction("UpdateStock", "Books");
         }
 
         // GET: OrderDetails/Edit/5
