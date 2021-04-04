@@ -10,13 +10,20 @@ namespace GeorgianBudgetSaver.Models
     public class Book
     {
         public int BookId { get; set; }
+        [Required]
         public string Title { get; set; }
+        [Required]
         public string Author { get; set; }
         [DataType(DataType.Date)]
+        [Required]
         public DateTime BoughtDate { get; set; }
         [Column(TypeName = "decimal(18,2)")]
+        [Required]
         public Decimal Price { get; set; }
+        [Required]
         public bool InStock { get; set; }
+        [Required]
+        public string Photo { get; set; }
 
         [Display(Name = "CourseProgram")]
         public int CourseProgramId { get; set; }

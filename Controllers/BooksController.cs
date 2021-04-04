@@ -121,6 +121,7 @@ namespace GeorgianBudgetSaver.Controllers
         {
             if (ModelState.IsValid)
             {
+                book.InStock = true;
                 _context.Add(book);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -160,6 +161,11 @@ namespace GeorgianBudgetSaver.Controllers
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int id, [Bind("BookId,Title,Author,BoughtDate,Price,InStock,CourseProgramId,AccountId")] Book book)
         {
+            if (!book.InStock)
+            {
+                RedirectToAction("Index");
+            }
+
             if (id != book.BookId)
             {
                 return NotFound();
