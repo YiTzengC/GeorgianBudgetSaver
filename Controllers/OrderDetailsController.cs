@@ -21,16 +21,19 @@ namespace GeorgianBudgetSaver.Controllers
         {
             _context = context;
         }
-
+        [Authorize]
         // GET: OrderDetails
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> DetailsWithOrder(Order order)
         {
-            var applicationDbContext = _context.OrderDetails.Include(o => o.Book).Include(o => o.Order);
-            return View(await applicationDbContext.ToListAsync());
+            var applicationDbContext = _context.OrderDetails.Include(o => o.Book).Include(o => o.Order).Where(od => od.OrderId == order.OrderId).ToList();
+            applicationDbContext.ForEach(od => {
+                od.Book.CourseProgram = _context.CoursePrograms.Find(od.Book.CourseProgramId);
+            });
+            return View(applicationDbContext);
         }
 
         // GET: OrderDetails/Details/5
-        public async Task<IActionResult> Details(int? id)
+        /*public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -47,7 +50,7 @@ namespace GeorgianBudgetSaver.Controllers
             }
 
             return View(orderDetail);
-        }
+        }*/
 
 
 
@@ -70,7 +73,7 @@ namespace GeorgianBudgetSaver.Controllers
         }
 
         // GET: OrderDetails/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        /*public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -85,12 +88,12 @@ namespace GeorgianBudgetSaver.Controllers
             ViewData["BookId"] = new SelectList(_context.Books, "BookId", "BookId", orderDetail.BookId);
             ViewData["OrderId"] = new SelectList(_context.Orders, "OrderId", "OrderId", orderDetail.OrderId);
             return View(orderDetail);
-        }
+        }*/
 
         // POST: OrderDetails/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        /*[HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("OrderDetailId,OrderId,BookId")] OrderDetail orderDetail)
         {
@@ -122,10 +125,10 @@ namespace GeorgianBudgetSaver.Controllers
             ViewData["BookId"] = new SelectList(_context.Books, "BookId", "BookId", orderDetail.BookId);
             ViewData["OrderId"] = new SelectList(_context.Orders, "OrderId", "OrderId", orderDetail.OrderId);
             return View(orderDetail);
-        }
+        }*/
 
         // GET: OrderDetails/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+       /* public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -143,9 +146,9 @@ namespace GeorgianBudgetSaver.Controllers
 
             return View(orderDetail);
         }
-
+*/
         // POST: OrderDetails/Delete/5
-        [HttpPost, ActionName("Delete")]
+        /*[HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -153,7 +156,7 @@ namespace GeorgianBudgetSaver.Controllers
             _context.OrderDetails.Remove(orderDetail);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
+        }*/
 
         private bool OrderDetailExists(int id)
         {

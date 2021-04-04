@@ -1,0 +1,73 @@
+﻿@model IEnumerable<GeorgianBudgetSaver.Models.OrderDetail>
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>OrderDetail</h4>
+    <hr />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Order)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Book)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Book.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Book.Author)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Book.BoughtDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Book.CourseProgram)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Book.Price)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Order.OrderId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Book.BookId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Book.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Book.Author)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Book.BoughtDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Book.CourseProgram.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Book.Price)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a asp-controller="Orders" asp-action="Index">Back To Orders</a>
+</div>
+@*<div>
+        <a asp-action="Edit" asp-route-id="@Model.OrderDetailId">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>*@

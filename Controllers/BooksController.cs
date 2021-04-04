@@ -33,7 +33,6 @@ namespace GeorgianBudgetSaver.Controllers
             }
             if (id != null)
             {
-                Console.WriteLine($"id: {id}");
                 books = books.Where(m => m.CourseProgramId == id);
 
                 return View(await books.ToListAsync());
@@ -140,6 +139,10 @@ namespace GeorgianBudgetSaver.Controllers
             }
 
             var book = await _context.Books.FindAsync(id);
+            //only in stock book can be edited
+            if (!book.InStock) {
+                RedirectToAction("Index");
+            }
             if (book == null)
             {
                 return NotFound();
@@ -271,7 +274,7 @@ namespace GeorgianBudgetSaver.Controllers
         {
             List<Cart> cartList = JsonConvert.DeserializeObject<List<Cart>>(HttpContext.Session.GetString("cart"));
             var applicationDbContext = await _context.Books.Include(b => b.CourseProgram).ToListAsync();
-            cartList.ForEach(async (obj) =>
+            cartList.ForEach((obj) =>
             {
                 var book = applicationDbContext.Find(b => b.BookId == obj.BookId);
                 book.InStock = false;
