@@ -54,11 +54,6 @@ namespace GeorgianBudgetSaver.Controllers
                 List<Cart> cartList = JsonConvert.DeserializeObject<List<Cart>>(HttpContext.Session.GetString("cart"));
                 cartList.ForEach((obj) =>
                 {
-                    Cart cart = new Cart
-                    {
-                        BookId = obj.BookId,
-                        Quantity = obj.Quantity
-                    };
                     applicationDbContext =  applicationDbContext.Where(b => b.BookId != obj.BookId).ToList();
                 });
             }
@@ -227,8 +222,9 @@ namespace GeorgianBudgetSaver.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult AddToCart(int productId, int quantity)
+        public IActionResult AddToCart(int productId, int quantity, decimal price)
         {
+            Console.WriteLine($"product id: {productId}, quantity: {quantity} ,price: {price}");
             string jsonString = "";
             if (HttpContext.Session.GetString("cart") == null)
             {
@@ -237,7 +233,8 @@ namespace GeorgianBudgetSaver.Controllers
                     new Cart
                     {
                         BookId = productId,
-                        Quantity = quantity
+                        Quantity = quantity,
+                        Price = price
                     }
                     );
                 jsonString = System.Text.Json.JsonSerializer.Serialize(cartlist);
@@ -250,7 +247,8 @@ namespace GeorgianBudgetSaver.Controllers
                     new Cart
                     {
                         BookId = productId,
-                        Quantity = quantity
+                        Quantity = quantity,
+                        Price = price
                     });
                 jsonString = System.Text.Json.JsonSerializer.Serialize(cartList);
             }

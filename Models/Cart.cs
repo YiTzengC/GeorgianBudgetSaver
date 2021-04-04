@@ -10,5 +10,6 @@ namespace GeorgianBudgetSaver.Models
     {
         public int Quantity {get; set;}
         public int BookId { get; set; }
+        public Decimal Price { get; set; }
     }
 }

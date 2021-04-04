@@ -43,6 +43,7 @@ namespace GeorgianBudgetSaver
             services.AddDataProtection();
             services.AddSession();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IConfiguration>(Configuration);
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

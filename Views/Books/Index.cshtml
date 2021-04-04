@@ -78,6 +78,7 @@
                     <form asp-action="AddToCart" method="post">
                         <input type="hidden" asp-for="@item.BookId" name="productId" />
                         <input type="hidden" value="1" name="quantity"/>
+                        <input type="hidden" asp-for="@item.Price" name="price"/>
                         <button type="submit" class="btn btn-outline-light btn-sm"><i class="bi bi-cart-plus-fill" style="font-size:1rem; line-height:inherit"></i> Add To Cart</button>
                     </form>
                 </td>

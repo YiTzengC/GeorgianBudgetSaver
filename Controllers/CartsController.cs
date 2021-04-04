@@ -10,35 +10,37 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Stripe;
+using System.Configuration;
+using Microsoft.Extensions.Configuration;
+using Stripe.Checkout;
 
 namespace GeorgianBudgetSaver.Controllers
 {
     public class CartsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        IConfiguration _configuration;
 
-        public CartsController(ApplicationDbContext context)
+        public CartsController(ApplicationDbContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
         public async Task<IActionResult> Index()
         {
             if (HttpContext.Session.GetString("cart") != null)
             {
                 List<Cart> cartList = JsonConvert.DeserializeObject<List<Cart>>(HttpContext.Session.GetString("cart"));
+                List<Book> books = new List<Book>();
                 if(cartList.Count() > 0)
                 {
                     var applicationDbContext = await _context.Books.Include(b => b.CourseProgram).ToListAsync();
                     cartList.ForEach((obj) =>
                     {
-                        Cart cart = new Cart
-                        {
-                            BookId = obj.BookId,
-                            Quantity = obj.Quantity
-                        };
-                        applicationDbContext = applicationDbContext.Where(b => b.BookId == obj.BookId).ToList();
+                        books.Add(applicationDbContext.Find(b => b.BookId == obj.BookId));
                     });
-                    return View(applicationDbContext);
+                    return View(books);
 
                 }
             }
@@ -60,7 +62,6 @@ namespace GeorgianBudgetSaver.Controllers
         [Authorize]
         public IActionResult Checkout()
         {
-
             return View();
         }
 
@@ -68,20 +69,72 @@ namespace GeorgianBudgetSaver.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> Create([Bind("Address,City,Province,PostalCode,Phone,Email,OrderDate,Total")] Order order)
+        [ValidateAntiForgeryToken]
+        public IActionResult Checkout([Bind("Address,City,Province,PostalCode,Phone,Email,OrderDate,Total")] Models.Order order)
         {
-            
-            /*if (ModelState.IsValid)
+            /*order.Total = 0;*/
+            order.OrderDate = DateTime.Now;
+            order.CustomerId = User.Identity.Name;
+            List<Cart> cartList = JsonConvert.DeserializeObject<List<Cart>>(HttpContext.Session.GetString("cart"));
+            cartList.ForEach((n) =>
             {
-                _context.Add(order);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            *//* ViewData["AccountId"] = new SelectList(_context.Accounts, "AccountId", "AccountId", book.AccountId);*//*
-            ViewData["CourseProgramId"] = new SelectList(_context.CoursePrograms, "CourseProgramId", "CourseProgramId", book.CourseProgramId);*/
+                Console.WriteLine($"id: {n.BookId}, q: {n.Quantity}, p: {n.Price}");
+            });
+            order.Total = (from cart in cartList select cart.Price * cart.Quantity).Sum();
+            Console.WriteLine($"order.Total: {order.Total}");
+            string jsonString = System.Text.Json.JsonSerializer.Serialize(order);
+            HttpContext.Session.SetString("order", jsonString);
+
+            return RedirectToAction("Payment");
+        }
+        [Authorize]
+        public IActionResult Payment()
+        {
+            var orderObj = JsonConvert.DeserializeObject<Models.Order>(HttpContext.Session.GetString("order"));
+            Console.WriteLine($"obj: {orderObj.Total}");
+            ViewData["Total"] = orderObj.Total;
+            ViewData["PublishableKey"] = _configuration.GetSection("Stripe")["PublishableKey"];
+
             return View();
+        }
+        [Authorize]
+        [HttpPost]
+        public IActionResult ProcessPayment()
+        {
+            Models.Order orderObj = JsonConvert.DeserializeObject<Models.Order>(HttpContext.Session.GetString("order"));
+            //secret key
+            StripeConfiguration.ApiKey = _configuration.GetSection("Stripe")["SecretKey"];
+
+            var options = new SessionCreateOptions
+            {
+                PaymentMethodTypes = new List<string>
+                {
+                  "card",
+                },
+                LineItems = new List<SessionLineItemOptions>
+                {
+                  new SessionLineItemOptions
+                  {
+                    PriceData = new SessionLineItemPriceDataOptions
+                    {
+                      UnitAmount = (long?)(orderObj.Total * 100),
+                      Currency = "cad",
+                      ProductData = new SessionLineItemPriceDataProductDataOptions
+                      {
+                        Name = "Georgian Budget Saver Purchase",
+                      },
+                    },
+                    Quantity = 1,
+                  },
+                },
+                Mode = "payment",
+                SuccessUrl ="https://" + Request.Host + "/Orders/SaveOrder",
+                CancelUrl = "https://" + Request.Host + "/Carts/Index",
+            };
+            var service = new SessionService();
+            Session session = service.Create(options);
+            return Json(new { id = session.Id });
         }
     }
 }
