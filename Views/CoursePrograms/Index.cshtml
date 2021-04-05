@@ -1,6 +1,18 @@
 ﻿@model IEnumerable<GeorgianBudgetSaver.Models.CourseProgram>
 <div class="program-container">
     <h1>Georgian Programs</h1>
+    @if (User.IsInRole("Administrator"))
+    {
+        <form asp-action="RetrieveFromGC" method="post">
+            <div class="spinner-border text-light" role="status" hidden id="loading">
+                <span class="sr-only">Loading...</span>
+            </div>
+
+            <button class="btn btn-outline-light mb-4" id="updateGC">
+                Update Data From Georgian College <i class="bi bi-box-arrow-in-down" style="font-size:1.3rem; line-height:0;"></i>
+            </button>
+        </form>
+    }
     <table class="table table-light table-striped table-hover align-middle">
         <thead>
             <tr>
@@ -32,14 +44,20 @@
                             <a type="button" class="btn btn-delete" asp-action="Delete" asp-route-id="@item.CourseProgramId"><i class="bi bi-trash-fill"></i></a>
                         </td>
                     }
-                <td style="text-align:center">
-                    <form asp-controller="Books" asp-action="Index" method="post">
-                        <input type="hidden" asp-for="@item.CourseProgramId" name="id" />
-                        <button type="submit" class="btn btn-search-icon btn-sm"><i class="bi bi-search"></i></button>
-                    </form>
-                </td>
+                    <td style="text-align:center">
+                        <form asp-controller="Books" asp-action="Index" method="post">
+                            <input type="hidden" asp-for="@item.CourseProgramId" name="id" />
+                            <button type="submit" class="btn btn-search-icon btn-sm"><i class="bi bi-search"></i></button>
+                        </form>
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+<script>
+    document.getElementById("updateGC").addEventListener("click", btnCliked);
+    function btnClicked(event) {
+        document.getElementById("loading").hidden = false;
+    }
+</script>
