@@ -21,12 +21,17 @@
                             <p class="card-text">$@Html.DisplayFor(modelItem => item.Price)</p>
                             @if (User.IsInRole("Administrator"))
                             {
+                                <div class="row">
 
-                                @if (item.InStock == true)
-                                {
-                                    <a type="button" class="btn btn-block btn-outline-dark" asp-action="Edit" asp-route-id="@item.BookId"><i class="bi bi-pencil-square"></i></a>
-                                }
-                                <a type="button" class="btn btn-block btn-outline-danger" asp-action="Delete" asp-route-id="@item.BookId"><i class="bi bi-trash-fill"></i></a>
+                                    @if (item.InStock == true)
+                                    {
+                                        <a class="btn btn-edit" asp-action="Edit" asp-route-id="@item.BookId"><i class="bi bi-pencil-square"></i></a>
+                                        <a class="btn btn-delete" asp-action="Delete" asp-route-id="@item.BookId"><i class="bi bi-trash-fill"></i></a>
+                                    }
+                                    else { 
+                                        <a  class="btn" style="pointer-events:none;"><i class="bi bi-exclamation-circle-fill"></i> Not In Stock</a>
+                                   }
+                                </div>
 
                             }
                             else

@@ -27,7 +27,7 @@ namespace GeorgianBudgetSaver.Controllers
         // GET: OrderDetails
         public IActionResult DetailsWithOrder(int orderId)
         {
-            var applicationDbContext = _context.OrderDetails.Include(o => o.Book).Where(od => od.OrderId == orderId).ToList();
+            var applicationDbContext = _context.OrderDetails.Include(o => o.Book).Where(od => od.OrderId == orderId).OrderBy(o=>o.Book.Title).ToList();
             applicationDbContext.ForEach(od =>
             {
                 od.Book.CourseProgram = _context.CoursePrograms.Find(od.Book.CourseProgramId);

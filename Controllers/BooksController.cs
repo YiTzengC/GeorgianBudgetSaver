@@ -26,7 +26,7 @@ namespace GeorgianBudgetSaver.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(int? id, string searchString)
         {
-            var books = from m in _context.Books.Include(b => b.CourseProgram)
+            var books = from m in _context.Books.Include(b => b.CourseProgram).OrderBy(b=>b.Title)
                         select m;
             if (!User.IsInRole("Administrator"))
             {
@@ -50,7 +50,7 @@ namespace GeorgianBudgetSaver.Controllers
         // GET: Books
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = await _context.Books.Include(b => b.CourseProgram).ToListAsync();
+            var applicationDbContext = await _context.Books.Include(b => b.CourseProgram).OrderBy(b=>b.Title).ToListAsync();
             // do not dislpay item in cart
             if (HttpContext.Session.GetString("cart") != null)
             {
@@ -60,7 +60,8 @@ namespace GeorgianBudgetSaver.Controllers
                     applicationDbContext = applicationDbContext.Where(b => b.BookId != obj.BookId).ToList();
                 });
             }
-            if (!User.IsInRole("Administrator")) {
+            if (!User.IsInRole("Administrator"))
+            {
                 applicationDbContext = applicationDbContext.Where(b => b.InStock == true).ToList();
             }
             return View(applicationDbContext);
@@ -108,7 +109,7 @@ namespace GeorgianBudgetSaver.Controllers
         public IActionResult Create()
         {
             /*ViewData["AccountId"] = new SelectList(_context.Accounts, "AccountId", "Username");*/
-            ViewData["CourseProgramId"] = new SelectList(_context.CoursePrograms.OrderBy(p=> p.Title), "CourseProgramId", "Title");
+            ViewData["CourseProgramId"] = new SelectList(_context.CoursePrograms.OrderBy(p => p.Title), "CourseProgramId", "Title");
 
             return View();
         }
@@ -123,7 +124,8 @@ namespace GeorgianBudgetSaver.Controllers
             if (ModelState.IsValid)
             {
                 //check for photo
-                if (photo.Length > 0) {
+                if (photo.Length > 0)
+                {
                     var fileName = Guid.NewGuid() + "-" + photo.FileName;
                     var des = Directory.GetCurrentDirectory() + "\\wwwroot\\img\\books\\" + fileName;
                     var stream = new FileStream(des, FileMode.Create);
@@ -151,8 +153,10 @@ namespace GeorgianBudgetSaver.Controllers
 
             var book = await _context.Books.FindAsync(id);
             //only in stock book can be edited
-            if (!book.InStock) {
-                RedirectToAction("Index");
+            if (book.InStock == false)
+            {
+
+                return RedirectToAction("Index");
             }
             if (book == null)
             {

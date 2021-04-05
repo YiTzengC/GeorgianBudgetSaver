@@ -271,3 +271,7 @@ body {
     .order-detail:hover {
     color:darkgray;
     }
+
+.nav-pills .nav-link.active {
+    background-color: #2b4570;
+}

@@ -29,7 +29,7 @@ namespace GeorgianBudgetSaver.Controllers
                 var allOrders = await _context.Orders.ToListAsync();
                 return View(allOrders);
             }
-            var orders = await _context.Orders.Where(order => order.CustomerId == User.Identity.Name).ToListAsync();
+            var orders = await _context.Orders.Where(order => order.CustomerId == User.Identity.Name).OrderBy(o=>o.OrderDate).ToListAsync();
             return View(orders);
         }
         /*[Authorize]
