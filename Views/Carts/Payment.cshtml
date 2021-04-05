@@ -2,15 +2,22 @@
 <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
 <script src="https://js.stripe.com/v3/"></script>
 
-<section>
-    <div class="product">
-        <div class="description">
-            <h3>Stubborn Attachments</h3>
-            <h5>@String.Format("{0:c}", ViewData["Total"])</h5>
+    <div class="card" style=" background-color:white; width:30%; margin:10rem auto">
+        <h5 class="card-header">Confirmation</h5>
+        <div class="card-body">
+            <h5 class="card-title">Total(CAD): @String.Format("{0:c}", ViewData["Total"])</h5>
+            <p class="card-text">Click Next Below To Continue</p>
+            <button class="btn btn-success btn-block" id="checkout-button">Next</button>
+            <a asp-controller="Carts" asp-action="Checkout" class="btn btn-danger btn-block" >Back</a>
         </div>
     </div>
-    <button type="button" id="checkout-button">Continue To Payment</button>
-</section>
+    <!--<div class="product">
+        <div class="description">
+            <h3>Your Toal</h3>
+            <h5>-->@*@String.Format("{0:c}", ViewData["Total"])*@<!--$123</h5>
+        </div>
+    </div>
+    <button type="button" id="checkout-button">Next</button>-->
 
 <script type="text/javascript">
     // Create an instance of the Stripe object with your publishable API key

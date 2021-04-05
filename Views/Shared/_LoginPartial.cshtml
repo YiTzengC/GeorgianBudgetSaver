@@ -35,7 +35,7 @@
     {
 
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="Carts" asp-action="Index">
+            <a class="nav-link text-dark" asp-controller="Carts" asp-action="Checkout">
                 <i class="bi bi-cart-fill" style="font-size:1.8rem; line-height:0;"></i>
                 <span class="badge" style=" position: relative; top: -14px; right: 18px; background-color:white; color:red; border: .1rem black solid;">
                     @if (HttpContextAccessor.HttpContext.Session.GetString("cart") != null)

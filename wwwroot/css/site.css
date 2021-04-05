@@ -252,3 +252,13 @@ body {
         color: white;
         background-color: #376686;
     }
+.remove-from-cart {
+    line-height: 0px;
+    font-size: 1.3rem;
+    vertical-align: text-bottom;
+    color: #ca1e1e;
+}
+    .remove-from-cart:hover {
+    
+    color:red;
+    }

@@ -27,40 +27,7 @@ namespace GeorgianBudgetSaver.Controllers
             _context = context;
             _configuration = configuration;
         }
-        public async Task<IActionResult> Index()
-        {
-            if (HttpContext.Session.GetString("cart") != null)
-            {
-                List<Cart> cartList = JsonConvert.DeserializeObject<List<Cart>>(HttpContext.Session.GetString("cart"));
-                List<Book> books = new List<Book>();
-                if(cartList.Count() > 0)
-                {
-                    var applicationDbContext = await _context.Books.Include(b => b.CourseProgram).ToListAsync();
-                    cartList.ForEach((obj) =>
-                    {
-                        books.Add(applicationDbContext.Find(b => b.BookId == obj.BookId));
-                    });
-                    return View(books);
-
-                }
-            }
-            return View(new List<Book>());
-        }
-        [HttpPost]
-        public IActionResult RemoveFromCart(int productId)
-        {
-            //remove from session
-            List<Cart> cartList = JsonConvert.DeserializeObject<List<Cart>>(HttpContext.Session.GetString("cart"));
-            cartList = cartList.Where(b => b.BookId != productId).ToList();
-            string jsonString = System.Text.Json.JsonSerializer.Serialize(cartList);
-
-            HttpContext.Session.SetString("cart", jsonString);
-
-            return RedirectToAction("Index");
-
-        }
-        [Authorize(Roles = "Customer")]
-        public async Task<IActionResult> CheckoutAsync()
+        /*public async Task<IActionResult> Index()
         {
             if (HttpContext.Session.GetString("cart") != null)
             {
@@ -73,9 +40,63 @@ namespace GeorgianBudgetSaver.Controllers
                     {
                         books.Add(applicationDbContext.Find(b => b.BookId == obj.BookId));
                     });
+                    return View(books);
+
                 }
-                ViewData["books"] = books;
             }
+            return View(new List<Book>());
+        }*/
+
+        [HttpPost]
+        public IActionResult RemoveFromCart(int productId)
+        {
+            //remove from session
+            List<Cart> cartList = JsonConvert.DeserializeObject<List<Cart>>(HttpContext.Session.GetString("cart"));
+            cartList = cartList.Where(b => b.BookId != productId).ToList();
+            string jsonString = System.Text.Json.JsonSerializer.Serialize(cartList);
+
+            HttpContext.Session.SetString("cart", jsonString);
+
+            return RedirectToAction("Checkout");
+
+        }
+        public async Task<IActionResult> Checkout()
+        {
+            int items = 0;
+            decimal priceSum = 0;
+            List<Book> books = new List<Book>();
+            List<string> provinces = new List<string>();
+            provinces.Add("Alberta");
+            provinces.Add("British Columbia");
+            provinces.Add("Manitoba");
+            provinces.Add("New Brunswick");
+            provinces.Add("Newfoundland and Labrador");
+            provinces.Add("Northwest Territories");
+            provinces.Add("Nova Scotia");
+            provinces.Add("Nunavut");
+            provinces.Add("Ontario");
+            provinces.Add("Prince Edward Island");
+            provinces.Add("Quebec");
+            provinces.Add("Saskatchewan");
+            provinces.Add("Yukon");
+            if (HttpContext.Session.GetString("cart") != null)
+            {
+                List<Cart> cartList = JsonConvert.DeserializeObject<List<Cart>>(HttpContext.Session.GetString("cart"));
+                if (cartList.Count() > 0)
+                {
+                    var applicationDbContext = await _context.Books.Include(b => b.CourseProgram).ToListAsync();
+                    cartList.ForEach((obj) =>
+                    {
+                        items = items + obj.Quantity;
+                        priceSum = priceSum + obj.Quantity * obj.Price;
+                        books.Add(applicationDbContext.Find(b => b.BookId == obj.BookId));
+                    });
+                    ViewBag.Books = books;
+                }
+            }
+            ViewBag.Provinces = provinces;
+            ViewBag.Price = priceSum;
+            ViewBag.Quantity = items;
             return View();
         }
 
@@ -143,8 +164,8 @@ namespace GeorgianBudgetSaver.Controllers
                   },
                 },
                 Mode = "payment",
-                SuccessUrl ="https://" + Request.Host + "/Orders/Create",
-                CancelUrl = "https://" + Request.Host + "/Carts/Index",
+                SuccessUrl = "https://" + Request.Host + "/Orders/Create",
+                CancelUrl = "https://" + Request.Host + "/Carts/Checkout",
             };
             var service = new SessionService();
             Session session = service.Create(options);
