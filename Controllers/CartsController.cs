@@ -109,7 +109,7 @@ namespace GeorgianBudgetSaver.Controllers
         public IActionResult Checkout([Bind("FirstName,LastName,Address,City,Province,PostalCode,Phone,Email,OrderDate,Total")] Models.Order order)
         {
             /*order.Total = 0;*/
-            order.OrderDate = DateTime.Now;
+            order.OrderDate = DateTime.Now.Date;
             order.CustomerId = User.Identity.Name;
             List<Cart> cartList = JsonConvert.DeserializeObject<List<Cart>>(HttpContext.Session.GetString("cart"));
             cartList.ForEach((n) =>

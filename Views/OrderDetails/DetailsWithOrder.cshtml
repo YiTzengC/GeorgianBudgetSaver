@@ -1,44 +1,133 @@
 ﻿@model IEnumerable<GeorgianBudgetSaver.Models.OrderDetail>
 
-@{
-    ViewData["Title"] = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
 
-<h1>Details</h1>
-
-<div>
-    <h4>OrderDetail</h4>
+<div class="form-card" style="margin:7rem auto 6rem auto; width:80%; padding:3rem 5rem; border-top:.3rem #2b4570 solid;box-shadow: 2px 3px 5px #676666;">
+    <div class="d-flex justify-content-between lh-condensed">
+        <h4>Order #@ViewBag.Order.OrderId</h4>
+        <span class="text-muted">Date: @ViewBag.Order.OrderDate</span>
+    </div>
     <hr />
-    <table class="table">
+    <dl class="row">
+        <dt class="col-sm-2">
+            Name
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.Order.FirstName @ViewBag.Order.LastName
+        </dd>
+        <dt class="col-sm-2">
+            Address
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.Order.Address
+        </dd>
+        <dt class="col-sm-2">
+            City
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.Order.City
+        </dd>
+        <dt class="col-sm-2">
+            Province
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.Order.Province
+        </dd>
+        <dt class="col-sm-2">
+            Postal Code
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.Order.PostalCode
+        </dd>
+        <dt class="col-sm-2">
+            Phone
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.Order.Phone
+        </dd>
+        <dt class="col-sm-2">
+            Email
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.Order.Email
+        </dd>
+    </dl>
+    <hr />
+    @foreach (var item in Model)
+    {
+        <div class="card mb-3" style="box-shadow: 1px 2px 2px darkgrey;">
+            <div class="row no-gutters">
+                <div class="col-md-3" style="padding:.4rem .8rem;">
+                    <img src="~/img/books/@item.Book.Photo" style="width:inherit">
+                </div>
+                <div class="col-md-9">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Book.Title</h5>
+                        <p class="card-text">
+                            <dl class="row">
+                                <dt class="col-sm-4">
+                                    Author:
+                                </dt>
+                                <dd class="col-sm-8">
+                                    @item.Book.Author
+                                </dd>
+                                <dt class="col-sm-4">
+                                    Program:
+                                </dt>
+                                <dd class="col-sm-8">
+                                    @Html.DisplayFor(modelItem => item.Book.CourseProgram.Title)
+                                </dd>
+                                <dt class="col-sm-4">
+                                    Bought Date:
+                                </dt>
+                                <dd class="col-sm-8">
+                                    @Html.DisplayFor(modelItem => item.Book.BoughtDate)
+                                    @ViewBag.Order.City
+                                </dd>
+                            </dl>
+                        </p>
+                        <p class="card-text">
+                            <small class="text-muted">Price: @String.Format("{0:c}", item.Book.Price)@("(CAD)")</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <hr />
+    <div class="d-flex justify-content-between lh-condensed">
+        <a class="btn btn-outline-dark" asp-controller="Orders" asp-action="Index">Back To Orders</a>
+        <span>Total:  @String.Format("{0:c}", ViewBag.Order.Total)@("(CAD)")</span>
+    </div>
+</div>
+<!--<div class="container" style="margin:6rem auto; width:90%;">
+    <hr />-->
+@*<table class="table">
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Order)
+                    @Html.DisplayNameFor(ViewBag.Order.Order)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Book)
+                    @Html.DisplayNameFor(ViewBag.Order.Book)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Book.Title)
+                    @Html.DisplayNameFor(ViewBag.Order.Book.Title)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Book.Author)
+                    @Html.DisplayNameFor(ViewBag.Order.Book.Author)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Book.BoughtDate)
+                    @Html.DisplayNameFor(ViewBag.Order.Book.BoughtDate)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Book.CourseProgram)
+                    @Html.DisplayNameFor(ViewBag.Order.Book.CourseProgram)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Book.Price)
+                    @Html.DisplayNameFor(ViewBag.Order.Book.Price)
                 </th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
-            {
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Order.OrderId)
@@ -65,8 +154,8 @@
             }
         </tbody>
     </table>
-    <a asp-controller="Orders" asp-action="Index">Back To Orders</a>
-</div>
+    <a asp-controller="Orders" asp-action="Index">Back To Orders</a>*@
+<!--</div>-->
 @*<div>
         <a asp-action="Edit" asp-route-id="@Model.OrderDetailId">Edit</a> |
         <a asp-action="Index">Back to List</a>

@@ -22,13 +22,17 @@ namespace GeorgianBudgetSaver.Controllers
             _context = context;
         }
         [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         // GET: OrderDetails
-        public async Task<IActionResult> DetailsWithOrder(Order order)
+        public IActionResult DetailsWithOrder(int orderId)
         {
-            var applicationDbContext = _context.OrderDetails.Include(o => o.Book).Include(o => o.Order).Where(od => od.OrderId == order.OrderId).ToList();
-            applicationDbContext.ForEach(od => {
+            var applicationDbContext = _context.OrderDetails.Include(o => o.Book).Where(od => od.OrderId == orderId).ToList();
+            applicationDbContext.ForEach(od =>
+            {
                 od.Book.CourseProgram = _context.CoursePrograms.Find(od.Book.CourseProgramId);
             });
+            ViewBag.Order = _context.Orders.Find(orderId);
             return View(applicationDbContext);
         }
 

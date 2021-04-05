@@ -262,3 +262,12 @@ body {
     
     color:red;
     }
+.order-detail {
+    font-size: 2rem;
+    line-height: 0px;
+    vertical-align:middle;
+    color: black;
+}
+    .order-detail:hover {
+    color:darkgray;
+    }

@@ -21,7 +21,7 @@ namespace GeorgianBudgetSaver.Controllers
         {
             _context = context;
         }
-        [Authorize(Roles = "Customer")]
+        [Authorize]
         // GET: Orders
         public async Task<IActionResult> Index()
         {
@@ -32,7 +32,9 @@ namespace GeorgianBudgetSaver.Controllers
             var orders = await _context.Orders.Where(order => order.CustomerId == User.Identity.Name).ToListAsync();
             return View(orders);
         }
-        [Authorize]
+        /*[Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         // GET: Orders/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -48,7 +50,7 @@ namespace GeorgianBudgetSaver.Controllers
                 return NotFound();
             }
             return RedirectToAction("DetailsWithOrder", "OrderDetails", order);
-        }
+        }*/
         [Authorize(Roles = "Customer")]
         // GET: Orders/Create
         public IActionResult Create()
