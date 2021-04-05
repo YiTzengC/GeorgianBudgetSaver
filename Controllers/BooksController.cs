@@ -26,7 +26,7 @@ namespace GeorgianBudgetSaver.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(int? id, string searchString)
         {
-            var books = from m in _context.Books.Include(b => b.CourseProgram).OrderBy(b=>b.Title)
+            var books = from m in _context.Books.Include(b => b.CourseProgram).OrderBy(b => b.Title)
                         select m;
             if (!User.IsInRole("Administrator"))
             {
@@ -50,7 +50,7 @@ namespace GeorgianBudgetSaver.Controllers
         // GET: Books
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = await _context.Books.Include(b => b.CourseProgram).OrderBy(b=>b.Title).ToListAsync();
+            var applicationDbContext = await _context.Books.Include(b => b.CourseProgram).OrderBy(b => b.Title).ToListAsync();
             // do not dislpay item in cart
             if (HttpContext.Session.GetString("cart") != null)
             {
@@ -173,8 +173,9 @@ namespace GeorgianBudgetSaver.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Edit(int id, [Bind("BookId,Title,Author,BoughtDate,Price,InStock,CourseProgramId,AccountId")] Book book)
+        public async Task<IActionResult> Edit(int id, [Bind("Photo,BookId,Title,Author,BoughtDate,Price,InStock,CourseProgramId,AccountId")] Book book, IFormFile photo)
         {
+            Console.WriteLine($"photo: {photo}");
             if (!book.InStock)
             {
                 RedirectToAction("Index");
@@ -189,6 +190,17 @@ namespace GeorgianBudgetSaver.Controllers
             {
                 try
                 {
+                    if (photo != null)
+                    {
+                        if (photo.Length > 0)
+                        {
+                            var fileName = Guid.NewGuid() + "-" + photo.FileName;
+                            var des = Directory.GetCurrentDirectory() + "\\wwwroot\\img\\books\\" + fileName;
+                            var stream = new FileStream(des, FileMode.Create);
+                            await photo.CopyToAsync(stream);
+                            book.Photo = fileName;
+                        }
+                    }
                     _context.Update(book);
                     await _context.SaveChangesAsync();
                 }
