@@ -12,6 +12,12 @@ namespace GeorgianBudgetSaver.Models
         public int OrderId { get; set; }
         public string CustomerId { get; set; }
         [Required]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+        [Required]
+        [Display(Name ="Last Name")]
+        public string LastName { get; set; }
+        [Required]
         public string Address { get; set; }
         [Required]
         public string City { get; set; }

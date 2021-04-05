@@ -8,7 +8,13 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <img style="height: 2rem; width: 2rem; border-radius: 50%;" src="~/img/account/@HttpContextAccessor.HttpContext.Session.GetString("profileImg")"/>
+                }
+                @User.Identity.Name!
+            </a>
         </li>
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
@@ -30,8 +36,8 @@
 
         <li class="nav-item">
             <a class="nav-link text-dark" asp-controller="Carts" asp-action="Index">
-                <i class="bi bi-cart-fill"></i>
-                <span class="badge bg-success">
+                <i class="bi bi-cart-fill" style="font-size:1.8rem; line-height:0;"></i>
+                <span class="badge" style=" position: relative; top: -14px; right: 18px; background-color:white; color:red; border: .1rem black solid;">
                     @if (HttpContextAccessor.HttpContext.Session.GetString("cart") != null)
                     {
                         int total = 0;

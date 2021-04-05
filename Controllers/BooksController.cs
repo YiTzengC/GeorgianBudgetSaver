@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace GeorgianBudgetSaver.Controllers
 {
@@ -107,7 +108,7 @@ namespace GeorgianBudgetSaver.Controllers
         public IActionResult Create()
         {
             /*ViewData["AccountId"] = new SelectList(_context.Accounts, "AccountId", "Username");*/
-            ViewData["CourseProgramId"] = new SelectList(_context.CoursePrograms, "CourseProgramId", "Title");
+            ViewData["CourseProgramId"] = new SelectList(_context.CoursePrograms.OrderBy(p=> p.Title), "CourseProgramId", "Title");
 
             return View();
         }
@@ -117,10 +118,19 @@ namespace GeorgianBudgetSaver.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BookId,Title,Author,BoughtDate,Price,InStock,CourseProgramId")] Book book)
+        public async Task<IActionResult> Create([Bind("BookId,Title,Author,BoughtDate,Price,InStock,CourseProgramId")] Book book, IFormFile photo)
         {
             if (ModelState.IsValid)
             {
+                //check for photo
+                if (photo.Length > 0) {
+                    var fileName = Guid.NewGuid() + "-" + photo.FileName;
+                    var des = Directory.GetCurrentDirectory() + "\\wwwroot\\img\\books\\" + fileName;
+                    var stream = new FileStream(des, FileMode.Create);
+                    await photo.CopyToAsync(stream);
+                    book.Photo = fileName;
+                }
+
                 book.InStock = true;
                 _context.Add(book);
                 await _context.SaveChangesAsync();

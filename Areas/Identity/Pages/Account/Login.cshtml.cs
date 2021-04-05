@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using GeorgianBudgetSaver.Data;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace GeorgianBudgetSaver.Areas.Identity.Pages.Account
 {
@@ -20,14 +23,18 @@ namespace GeorgianBudgetSaver.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, 
+        public LoginModel(SignInManager<IdentityUser> signInManager,
             ILogger<LoginModel> logger,
-            UserManager<IdentityUser> userManager)
+            UserManager<IdentityUser> userManager,
+            ApplicationDbContext context
+            )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _context = context;
         }
 
         [BindProperty]
@@ -83,6 +90,19 @@ namespace GeorgianBudgetSaver.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    //put user profile pic in Session
+
+                    //retrieve from database for img
+                    var ai = _context.AccountImg.Where(ai => ai.user == Input.Email).ToList();
+                    if (ai.Count() > 0)
+                    {
+                        Console.WriteLine($"Has img: {ai.First().img}");
+                        HttpContext.Session.SetString("profileImg", ai.First().img);
+                    }
+                    else
+                    {
+                        HttpContext.Session.SetString("profileImg", "default.png");
+                    }
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

@@ -11,7 +11,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow fixed-top">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">GeorgianBudgetSaver</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -22,24 +22,25 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         @*<li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>*@
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>*@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-dark" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Program</a>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" asp-controller="CoursePrograms" asp-action="Index">View Programs</a>
-                                @if (User.IsInRole("Administrator")) { 
+                                @if (User.IsInRole("Administrator"))
+                                {
                                     <a class="dropdown-item" asp-controller="CoursePrograms" asp-action="Create">Add Program</a>
                                 }
                             </div>
                         </li>
                         @*<li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-dark" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account</a>
-                            <div class="dropdown-menu">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Accounts" asp-action="Index">View Accounts</a>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Accounts" asp-action="Create">Create Account</a>
-                            </div>
-                        </li>*@
+                                <a class="nav-link dropdown-toggle text-dark" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account</a>
+                                <div class="dropdown-menu">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Accounts" asp-action="Index">View Accounts</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Accounts" asp-action="Create">Create Account</a>
+                                </div>
+                            </li>*@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-dark" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Book</a>
                             <div class="dropdown-menu">
@@ -56,9 +57,9 @@
         </nav>
     </header>
     @*<div class="container">*@
-        <main role="main">
-            @RenderBody()
-        </main>
+    <main role="main" style="margin-top:3.5rem">
+        @RenderBody()
+    </main>
     @*</div>*@
 
     <footer class="border-top footer text-muted">

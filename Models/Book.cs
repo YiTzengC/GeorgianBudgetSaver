@@ -22,7 +22,6 @@ namespace GeorgianBudgetSaver.Models
         public Decimal Price { get; set; }
         [Required]
         public bool InStock { get; set; }
-        [Required]
         public string Photo { get; set; }
 
         [Display(Name = "CourseProgram")]

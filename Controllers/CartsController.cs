@@ -59,9 +59,23 @@ namespace GeorgianBudgetSaver.Controllers
             return RedirectToAction("Index");
 
         }
-        [Authorize]
-        public IActionResult Checkout()
+        [Authorize(Roles = "Customer")]
+        public async Task<IActionResult> CheckoutAsync()
         {
+            if (HttpContext.Session.GetString("cart") != null)
+            {
+                List<Cart> cartList = JsonConvert.DeserializeObject<List<Cart>>(HttpContext.Session.GetString("cart"));
+                List<Book> books = new List<Book>();
+                if (cartList.Count() > 0)
+                {
+                    var applicationDbContext = await _context.Books.Include(b => b.CourseProgram).ToListAsync();
+                    cartList.ForEach((obj) =>
+                    {
+                        books.Add(applicationDbContext.Find(b => b.BookId == obj.BookId));
+                    });
+                }
+                ViewData["books"] = books;
+            }
             return View();
         }
 
@@ -69,9 +83,9 @@ namespace GeorgianBudgetSaver.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [ValidateAntiForgeryToken]
-        public IActionResult Checkout([Bind("Address,City,Province,PostalCode,Phone,Email,OrderDate,Total")] Models.Order order)
+        public IActionResult Checkout([Bind("FirstName,LastName,Address,City,Province,PostalCode,Phone,Email,OrderDate,Total")] Models.Order order)
         {
             /*order.Total = 0;*/
             order.OrderDate = DateTime.Now;
@@ -88,7 +102,7 @@ namespace GeorgianBudgetSaver.Controllers
 
             return RedirectToAction("Payment");
         }
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         public IActionResult Payment()
         {
             var orderObj = JsonConvert.DeserializeObject<Models.Order>(HttpContext.Session.GetString("order"));
@@ -98,7 +112,7 @@ namespace GeorgianBudgetSaver.Controllers
 
             return View();
         }
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [HttpPost]
         public IActionResult ProcessPayment()
         {
