@@ -280,10 +280,10 @@ body {
     border: none;
     background-color: white;
     display: block;
-    width: 100%;
-    font-size: 1.2rem;
+    width: 100%;/*
+    font-size: 1.2rem;*/
     font-weight: bold;
-    text-align: justify;
+    /*text-align: justify;*/
     padding: 0 0;
 }
 
