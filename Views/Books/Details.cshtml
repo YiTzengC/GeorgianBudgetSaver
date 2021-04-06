@@ -1,60 +1,126 @@
 ﻿@model GeorgianBudgetSaver.Models.Book
 @*@{
-    ViewData["Title"] = "Details";
-}*@
-<div class="table-view">
-    <h1>Book Info</h1>
+        ViewData["Title"] = "Details";
+    }*@
 
-    <div class="col-md-6 form-card">
-        <hr />
-        <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Title)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Title)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Author)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Author)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.BoughtDate)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.BoughtDate)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Price)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Price)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.InStock)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.InStock)
-            </dd>
-            <dt class="col-sm-2">
-                @*@Html.DisplayNameFor(model => model.CourseProgram)*@
-                Program
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.CourseProgram.Title)
-            </dd>
-            @*<dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Account)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Account.Username)
-                </dd>*@
-        </dl>
-        <div>
-            <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model.BookId">Edit</a>
-            <a class="btn btn-danger" asp-action="Index">Cancel</a>
+<div class="card box-shadow pt-4 pb-4 pr-5 pl-5" style="margin: 6rem auto; width: 70%; border-top: .3rem #A9DDD6 solid">
+    <div class="d-flex flex-row-reverse">
+        <a href="javascript:history.go(-1)" class="btn btn-sm btn-secondary">Back</a>
+    </div>
+    <div class="row no-gutters">
+        <div class="col-md-3" style="padding:.4rem .8rem;">
+            <img src="~/img/books/@Model.Photo" style="width:inherit">
+        </div>
+        <div class="col-md-9">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayNameFor(model => model.Title)</h5>
+                <p class="card-text">
+                    <dl class="row">
+                        <dt class="col-sm-3">
+                            Author:
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayNameFor(model => model.Author)
+                        </dd>
+                        <dt class="col-sm-3">
+                            Program:
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => model.CourseProgram.Title)
+                        </dd>
+                        <dt class="col-sm-3">
+                            Bought Date:
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => model.BoughtDate)
+                        </dd>
+                        <dt class="col-sm-3">
+                            In Stock:
+                        </dt>
+                        <dd class="col-sm-9">
+                            @if (Model.InStock)@("Yes")else@("No")
+                        </dd>
+                    </dl>
+                </p>
+                <p class="card-text">
+                    <div class="row">
+                        <div class="col-3">
+                            <small class="text-muted">Price: @String.Format("{0:c}", Model.Price)@("(CAD)")</small>
+                        </div>
+                        <div class="col-9">
+                            @if (Model.InStock && !User.IsInRole("Administrator"))
+                            {
+                                if (!ViewBag.InCart)
+                                {
+                                    <form asp-action="AddToCart" method="post" style="height:100%">
+                                        <input type="hidden" asp-for="@Model.BookId" name="productId" />
+                                        <input type="hidden" value="1" name="quantity" />
+                                        <input type="hidden" asp-for="@Model.Price" name="price" />
+                                        <button type="submit" class="btn add-to-cart btn-sm" style="height:100%"><i class="bi bi-cart-plus-fill" style="font-size:1rem;"></i> Add To Cart</button>
+                                    </form>
+
+                                }
+                                else { 
+                                
+                                    <form asp-controller="Carts" asp-action="RemoveFromCart" method="post" style="height:100%">
+                                        <input type="hidden" asp-for="@Model.BookId" name="productId" />
+                                        <button type="submit" class="btn btn-sm btn-danger" style="height:100%"><i class="bi bi-x-circle-fill" style="font-size:1rem;"></i> Remove From Cart</button>
+                                    </form>
+                                }
+
+                            }
+                        </div>
+                    </div>
+                </p>
+            </div>
         </div>
     </div>
 </div>
+
+@*<div class="table-view">
+        <h1>Book Info</h1>
+
+        <div class="col-md-6 form-card">
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Title)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Title)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Author)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Author)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.BoughtDate)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.BoughtDate)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Price)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Price)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.InStock)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.InStock)
+                </dd>
+                <dt class="col-sm-2">
+                    Program
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.CourseProgram.Title)
+                </dd>
+            </dl>
+            <div>
+            </div>
+        </div>
+    </div>*@

@@ -14,7 +14,10 @@
                     {
                         <li class="list-group-item d-flex justify-content-between lh-condensed">
                             <div>
-                                <h6 class="my-0">@book.Title</h6>
+                                <form asp-controller="Books" asp-action="Details" method="post">
+                                    <input type="hidden" asp-for="@book.BookId" name="bookId" />
+                                    <button type="submit" class="book-detail-btn">@book.Title</button>
+                                </form>
                                 <small class="text-muted">@book.Author</small>
                             </div>
                             <form asp-action="RemoveFromCart" method="post" class="row align-items-center">

@@ -275,3 +275,19 @@ body {
 .nav-pills .nav-link.active {
     background-color: #2b4570;
 }
+
+.book-detail-btn {
+    border: none;
+    background-color: white;
+    display: block;
+    width: 100%;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: justify;
+    padding: 0 0;
+}
+
+    .book-detail-btn:hover {
+    
+        color: darkgray;
+    }

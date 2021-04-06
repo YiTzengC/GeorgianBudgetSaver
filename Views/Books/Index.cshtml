@@ -16,8 +16,11 @@
                 <div class="col-sm-3" style="padding:0 0;">
                     <div class="card" style="border-radius: 0; border-color: #bdbdbd;padding:1.5rem 3rem; ">
                         <img src="~/img/books/@item.Photo" class="card-img-top" alt="..." style="height:10rem; width: 100%; object-fit:contain">
-                        <div class="card-body">
-                            <p class="card-text">@Html.DisplayFor(modelItem => item.Title)</p>
+                        <div class="card-body pt-1 pb-1 pl-0 pr-0">
+                            <form asp-action="Details" method="post">
+                                <input type="hidden" asp-for="@item.BookId" name="bookId" />
+                                <button type="submit" class="book-detail-btn">@Html.DisplayFor(modelItem => item.Title)</button>
+                            </form>
                             <p class="card-text">$@Html.DisplayFor(modelItem => item.Price)</p>
                             @if (User.IsInRole("Administrator"))
                             {
@@ -28,9 +31,10 @@
                                         <a class="btn btn-edit" asp-action="Edit" asp-route-id="@item.BookId"><i class="bi bi-pencil-square"></i></a>
                                         <a class="btn btn-delete" asp-action="Delete" asp-route-id="@item.BookId"><i class="bi bi-trash-fill"></i></a>
                                     }
-                                    else { 
-                                        <a  class="btn" style="pointer-events:none;"><i class="bi bi-exclamation-circle-fill"></i> Not In Stock</a>
-                                   }
+                                    else
+                                    {
+                                        <a class="btn" style="pointer-events:none;"><i class="bi bi-exclamation-circle-fill"></i> Not In Stock</a>
+                                    }
                                 </div>
 
                             }

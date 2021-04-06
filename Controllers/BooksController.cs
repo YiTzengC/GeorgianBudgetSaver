@@ -85,21 +85,27 @@ namespace GeorgianBudgetSaver.Controllers
         }*/
 
         // GET: Books/Details/5
-        [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Details(int? id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Details(int? bookId)
         {
-            if (id == null)
+            ViewBag.InCart = false;
+            if (bookId == null)
             {
                 return NotFound();
             }
 
             var book = await _context.Books
-                /*.Include(b => b.Account)*/
                 .Include(b => b.CourseProgram)
-                .FirstOrDefaultAsync(m => m.BookId == id);
+                .FirstOrDefaultAsync(m => m.BookId == bookId);
             if (book == null)
             {
                 return NotFound();
+            }
+            string cartSession = HttpContext.Session.GetString("cart");
+            if (cartSession != null) {
+                List<Cart> cartList = JsonConvert.DeserializeObject<List<Cart>>(cartSession);
+                ViewBag.InCart = cartList.Exists(b=>b.BookId == bookId);
             }
 
             return View(book);
@@ -299,7 +305,7 @@ namespace GeorgianBudgetSaver.Controllers
 
             HttpContext.Session.SetString("cart", jsonString);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Checkout", "Carts");
         }
         [Authorize(Roles = "Customer")]
         public async Task<IActionResult> UpdateStock()
