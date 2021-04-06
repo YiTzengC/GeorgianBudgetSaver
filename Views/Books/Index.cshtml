@@ -19,15 +19,15 @@
             <div class="col-sm-3" style="padding:0 0;">
                 <div class="card" style="border-radius: 0; border-color: #bdbdbd;padding:1.5rem 3rem; height:100%;">
                     <img src="~/img/books/@item.Photo" class="card-img-top" alt="..." style="height:10rem; width: 100%; object-fit:contain">
-                    <div class="card-body pt-1 pb-1 pl-0 pr-0">
+                    <div class="d-flex flex-column card-body pt-1 pb-1 pl-0 pr-0">
                         <form asp-action="Details" method="post">
                             <input type="hidden" asp-for="@item.BookId" name="bookId" />
                             <button type="submit" class="book-detail-btn">@Html.DisplayFor(modelItem => item.Title)</button>
                         </form>
                         <p class="card-text">$@Html.DisplayFor(modelItem => item.Price)</p>
-                        @if (User.IsInRole("Administrator"))
-                        {
-                            <div class="row">
+                        <div class="row mt-auto">
+                            @if (User.IsInRole("Administrator"))
+                            {
 
                                 @if (item.InStock == true)
                                 {
@@ -38,19 +38,19 @@
                                 {
                                     <a class="btn" style="pointer-events:none;"><i class="bi bi-exclamation-circle-fill"></i> Not In Stock</a>
                                 }
-                            </div>
 
-                        }
-                        else
-                        {
+                            }
+                            else
+                            {
 
-                            <form asp-action="AddToCart" method="post">
-                                <input type="hidden" asp-for="@item.BookId" name="productId" />
-                                <input type="hidden" value="1" name="quantity" />
-                                <input type="hidden" asp-for="@item.Price" name="price" />
-                                <button type="submit" class="btn add-to-cart btn-sm btn-block "><i class="bi bi-cart-plus-fill" style="font-size:1rem; line-height:inherit"></i> Add To Cart</button>
-                            </form>
-                        }
+                                <form asp-action="AddToCart" method="post" style="width:100%;">
+                                    <input type="hidden" asp-for="@item.BookId" name="productId" />
+                                    <input type="hidden" value="1" name="quantity" />
+                                    <input type="hidden" asp-for="@item.Price" name="price" />
+                                    <button type="submit" class="btn add-to-cart btn-sm btn-block "><i class="bi bi-cart-plus-fill" style="font-size:1rem; line-height:inherit"></i> Add To Cart</button>
+                                </form>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
