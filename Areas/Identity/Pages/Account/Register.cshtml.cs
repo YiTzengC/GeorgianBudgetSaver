@@ -5,8 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using GeorgianBudgetSaver.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -23,17 +25,20 @@ namespace GeorgianBudgetSaver.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly ApplicationDbContext _context;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _context = context;
         }
 
         [BindProperty]
@@ -79,6 +84,16 @@ namespace GeorgianBudgetSaver.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     var role = await _userManager.AddToRoleAsync(user, "Customer");
+                    var ai = _context.AccountImg.Where(ai => ai.user == Input.Email).ToList();
+                    if (ai.Count() > 0)
+                    {
+                        Console.WriteLine($"Has img: {ai.First().img}");
+                        HttpContext.Session.SetString("profileImg", ai.First().img);
+                    }
+                    else
+                    {
+                        HttpContext.Session.SetString("profileImg", "default.png");
+                    }
 
                     _logger.LogInformation("User created a new account with password.");
 
