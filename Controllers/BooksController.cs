@@ -319,7 +319,8 @@ namespace GeorgianBudgetSaver.Controllers
                 _context.Update(book);
                 _context.SaveChanges();
             });
-            HttpContext.Session.Clear();
+            HttpContext.Session.Remove("cart");
+            HttpContext.Session.Remove("order");
             return RedirectToAction("Index", "Orders");
         }
 
