@@ -28,7 +28,7 @@ namespace GeorgianBudgetSaver.Controllers
         // GET: CoursePrograms
         public async Task<IActionResult> Index()
         {
-            return View(await _context.CoursePrograms.ToListAsync());
+            return View(await _context.CoursePrograms.OrderBy(c=>c.Title).ToListAsync());
         }
 
         // GET: CoursePrograms/Details/5
