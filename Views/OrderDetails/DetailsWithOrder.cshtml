@@ -4,7 +4,7 @@
 <div class="form-card" style="margin:7rem auto 6rem auto; width:80%; padding:3rem 5rem; border-top:.3rem #2b4570 solid;box-shadow: 2px 3px 5px #676666;">
     <div class="d-flex justify-content-between lh-condensed">
         <h4>Order #@ViewBag.Order.OrderId</h4>
-        <span class="text-muted">Date: @ViewBag.Order.OrderDate</span>
+        <span class="text-muted">Date: @String.Format("{0:d}", ViewBag.Order.OrderDate)</span>
     </div>
     <hr />
     <dl class="row">
@@ -81,7 +81,6 @@
                                 </dt>
                                 <dd class="col-sm-8">
                                     @Html.DisplayFor(modelItem => item.Book.BoughtDate)
-                                    @ViewBag.Order.City
                                 </dd>
                             </dl>
                         </p>

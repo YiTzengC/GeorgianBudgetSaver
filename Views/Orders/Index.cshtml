@@ -16,7 +16,7 @@
             <div class="card-body list-group-item d-flex justify-content-between lh-condensed" style="background-color:white; border-radius:.2rem;">
                 <div>
                     <h6 class="my-0">Order Number: #@item.OrderId</h6>
-                    <small class="text-muted">Placed on: @item.OrderDate</small>
+                    <small class="text-muted">Placed on: @String.Format("{0:d}", item.OrderDate)</small>
                 </div>
                 <form asp-controller="OrderDetails" asp-action="DetailsWithOrder" method="post" class="align-items-center">
                     <span class="align-middle">Total: @String.Format("{0:c}", item.Total)@("(CAD)")</span>
