@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>aspnet-GeorgianBudgetSaver-A9F8872F-A6BD-46B4-8192-585A0C53C32B</UserSecretsId>
+    <ApplicationIcon>wwwroot\img\favicon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
