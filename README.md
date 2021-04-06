@@ -18,6 +18,9 @@ https://georgianbudgetsaver.azurewebsites.net
 # Reference:
 ### CSS Library:
 - https://getbootstrap.com/
+### Nutget Package:
+- https://html-agility-pack.net/
 # Assignment2 Bonus:
 
 - added search funtionality
+- one button update db and retrieve data from Georgian College website(function RetrieveFromGCAsync() in CourseProgramsController)
