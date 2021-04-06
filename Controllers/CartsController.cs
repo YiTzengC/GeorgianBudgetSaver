@@ -62,6 +62,9 @@ namespace GeorgianBudgetSaver.Controllers
         }
         public async Task<IActionResult> Checkout()
         {
+            if (User.IsInRole("Administrator")) {
+                return RedirectToAction("Index", "Home");
+            }
             int items = 0;
             decimal priceSum = 0;
             List<Book> books = new List<Book>();
@@ -108,10 +111,16 @@ namespace GeorgianBudgetSaver.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Checkout([Bind("FirstName,LastName,Address,City,Province,PostalCode,Phone,Email,OrderDate,Total")] Models.Order order)
         {
-            /*order.Total = 0;*/
+            
             order.OrderDate = DateTime.Now.Date;
             order.CustomerId = User.Identity.Name;
+            if (HttpContext.Session.GetString("cart") == null) {
+                return RedirectToAction("Checkout");
+            }
             List<Cart> cartList = JsonConvert.DeserializeObject<List<Cart>>(HttpContext.Session.GetString("cart"));
+            if (cartList.Count() <= 0) {
+                return RedirectToAction("Checkout");
+            }
             cartList.ForEach((n) =>
             {
                 Console.WriteLine($"id: {n.BookId}, q: {n.Quantity}, p: {n.Price}");

@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace GeorgianBudgetSaver.Data.Migrations
+namespace GeorgianBudgetSaver.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210405025550_UpdateOrder")]
-    partial class UpdateOrder
+    [Migration("20210406030021_New")]
+    partial class New
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
