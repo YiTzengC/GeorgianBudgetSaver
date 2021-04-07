@@ -96,7 +96,6 @@ namespace GeorgianBudgetSaver.Areas.Identity.Pages.Account
                     var ai = _context.AccountImg.Where(ai => ai.user == Input.Email).ToList();
                     if (ai.Count() > 0)
                     {
-                        Console.WriteLine($"Has img: {ai.First().img}");
                         HttpContext.Session.SetString("profileImg", ai.First().img);
                     }
                     else

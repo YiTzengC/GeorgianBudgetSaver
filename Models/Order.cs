@@ -34,9 +34,6 @@ namespace GeorgianBudgetSaver.Models
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public Decimal Total { get; set; }
-
-       /* public int AccountId { get; set; }
-        public Account Account { get; set; }*/
         public ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

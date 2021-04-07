@@ -27,7 +27,7 @@ namespace GeorgianBudgetSaver.Controllers
         // GET: OrderDetails
         public IActionResult DetailsWithOrder(int orderId)
         {
-            var applicationDbContext = _context.OrderDetails.Include(o => o.Book).Where(od => od.OrderId == orderId).OrderBy(o=>o.Book.Title).ToList();
+            var applicationDbContext = _context.OrderDetails.Include(o => o.Book).Where(od => od.OrderId == orderId).OrderBy(o => o.Book.Title).ToList();
             applicationDbContext.ForEach(od =>
             {
                 od.Book.CourseProgram = _context.CoursePrograms.Find(od.Book.CourseProgramId);
@@ -35,28 +35,6 @@ namespace GeorgianBudgetSaver.Controllers
             ViewBag.Order = _context.Orders.Find(orderId);
             return View(applicationDbContext);
         }
-
-        // GET: OrderDetails/Details/5
-        /*public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var orderDetail = await _context.OrderDetails
-                .Include(o => o.Book)
-                .Include(o => o.Order)
-                .FirstOrDefaultAsync(m => m.OrderDetailId == id);
-            if (orderDetail == null)
-            {
-                return NotFound();
-            }
-
-            return View(orderDetail);
-        }*/
-
-
 
         [Authorize(Roles = "Customer")]
         public IActionResult Create()
@@ -75,93 +53,6 @@ namespace GeorgianBudgetSaver.Controllers
             });
             return RedirectToAction("UpdateStock", "Books");
         }
-
-        // GET: OrderDetails/Edit/5
-        /*public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var orderDetail = await _context.OrderDetails.FindAsync(id);
-            if (orderDetail == null)
-            {
-                return NotFound();
-            }
-            ViewData["BookId"] = new SelectList(_context.Books, "BookId", "BookId", orderDetail.BookId);
-            ViewData["OrderId"] = new SelectList(_context.Orders, "OrderId", "OrderId", orderDetail.OrderId);
-            return View(orderDetail);
-        }*/
-
-        // POST: OrderDetails/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        /*[HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OrderDetailId,OrderId,BookId")] OrderDetail orderDetail)
-        {
-            if (id != orderDetail.OrderDetailId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(orderDetail);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OrderDetailExists(orderDetail.OrderDetailId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["BookId"] = new SelectList(_context.Books, "BookId", "BookId", orderDetail.BookId);
-            ViewData["OrderId"] = new SelectList(_context.Orders, "OrderId", "OrderId", orderDetail.OrderId);
-            return View(orderDetail);
-        }*/
-
-        // GET: OrderDetails/Delete/5
-       /* public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var orderDetail = await _context.OrderDetails
-                .Include(o => o.Book)
-                .Include(o => o.Order)
-                .FirstOrDefaultAsync(m => m.OrderDetailId == id);
-            if (orderDetail == null)
-            {
-                return NotFound();
-            }
-
-            return View(orderDetail);
-        }
-*/
-        // POST: OrderDetails/Delete/5
-        /*[HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var orderDetail = await _context.OrderDetails.FindAsync(id);
-            _context.OrderDetails.Remove(orderDetail);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }*/
-
         private bool OrderDetailExists(int id)
         {
             return _context.OrderDetails.Any(e => e.OrderDetailId == id);

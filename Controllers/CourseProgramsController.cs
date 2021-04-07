@@ -28,7 +28,7 @@ namespace GeorgianBudgetSaver.Controllers
         // GET: CoursePrograms
         public async Task<IActionResult> Index()
         {
-            return View(await _context.CoursePrograms.OrderBy(c=>c.Title).ToListAsync());
+            return View(await _context.CoursePrograms.OrderBy(c => c.Title).ToListAsync());
         }
 
         // GET: CoursePrograms/Details/5
@@ -130,8 +130,6 @@ namespace GeorgianBudgetSaver.Controllers
                 return NotFound();
             }
 
-            /*var courseProgram = await _context.CoursePrograms
-                .FirstOrDefaultAsync(m => m.CourseProgramId == id);*/
             var courseProgram = await _context.CoursePrograms.FindAsync(id);
 
             if (courseProgram == null)
@@ -142,20 +140,7 @@ namespace GeorgianBudgetSaver.Controllers
             _context.CoursePrograms.Remove(courseProgram);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-
-            /*return View(courseProgram);*/
         }
-
-        // POST: CoursePrograms/Delete/5
-        /*[HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var courseProgram = await _context.CoursePrograms.FindAsync(id);
-            _context.CoursePrograms.Remove(courseProgram);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }*/
 
         private bool CourseProgramExists(int id)
         {
@@ -192,8 +177,6 @@ namespace GeorgianBudgetSaver.Controllers
                     string code = tds.ElementAt(0).Element("a").InnerText;
                     string title = tds.ElementAt(1).Element("a").InnerText;
                     comingData.Add(title);
-                    /*Console.WriteLine($"Code: {code}, Title: {title}");
-*/
                 }
                 //retriev from db
                 List<CourseProgram> dbData = await _context.CoursePrograms.ToListAsync();

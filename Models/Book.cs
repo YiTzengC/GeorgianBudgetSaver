@@ -27,9 +27,6 @@ namespace GeorgianBudgetSaver.Models
         [Display(Name = "CourseProgram")]
         public int CourseProgramId { get; set; }
         public CourseProgram CourseProgram { set; get; }
-       /* [Display(Name = "Account")]
-        public int AccountId { get; set; }*/
-       /* public Account Account { set; get; }*/
         public ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

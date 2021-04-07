@@ -11,7 +11,7 @@
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <img style="height: 2rem; width: 2rem; border-radius: 50%;" src="~/img/account/@HttpContextAccessor.HttpContext.Session.GetString("profileImg")"/>
+                    <img style="height: 2rem; width: 2rem; border-radius: 50%;" src="~/img/account/@HttpContextAccessor.HttpContext.Session.GetString("profileImg")" />
                 }
                 @User.Identity.Name!
             </a>

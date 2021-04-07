@@ -27,25 +27,6 @@ namespace GeorgianBudgetSaver.Controllers
             _context = context;
             _configuration = configuration;
         }
-        /*public async Task<IActionResult> Index()
-        {
-            if (HttpContext.Session.GetString("cart") != null)
-            {
-                List<Cart> cartList = JsonConvert.DeserializeObject<List<Cart>>(HttpContext.Session.GetString("cart"));
-                List<Book> books = new List<Book>();
-                if (cartList.Count() > 0)
-                {
-                    var applicationDbContext = await _context.Books.Include(b => b.CourseProgram).ToListAsync();
-                    cartList.ForEach((obj) =>
-                    {
-                        books.Add(applicationDbContext.Find(b => b.BookId == obj.BookId));
-                    });
-                    return View(books);
-
-                }
-            }
-            return View(new List<Book>());
-        }*/
 
         [HttpPost]
         public IActionResult RemoveFromCart(int productId)
@@ -62,7 +43,8 @@ namespace GeorgianBudgetSaver.Controllers
         }
         public async Task<IActionResult> Checkout()
         {
-            if (User.IsInRole("Administrator")) {
+            if (User.IsInRole("Administrator"))
+            {
                 return RedirectToAction("Index", "Home");
             }
             int items = 0;
@@ -111,22 +93,19 @@ namespace GeorgianBudgetSaver.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Checkout([Bind("FirstName,LastName,Address,City,Province,PostalCode,Phone,Email,OrderDate,Total")] Models.Order order)
         {
-            
+
             order.OrderDate = DateTime.Now.Date;
             order.CustomerId = User.Identity.Name;
-            if (HttpContext.Session.GetString("cart") == null) {
+            if (HttpContext.Session.GetString("cart") == null)
+            {
                 return RedirectToAction("Checkout");
             }
             List<Cart> cartList = JsonConvert.DeserializeObject<List<Cart>>(HttpContext.Session.GetString("cart"));
-            if (cartList.Count() <= 0) {
+            if (cartList.Count() <= 0)
+            {
                 return RedirectToAction("Checkout");
             }
-            cartList.ForEach((n) =>
-            {
-                Console.WriteLine($"id: {n.BookId}, q: {n.Quantity}, p: {n.Price}");
-            });
             order.Total = (from cart in cartList select cart.Price * cart.Quantity).Sum();
-            Console.WriteLine($"order.Total: {order.Total}");
             string jsonString = System.Text.Json.JsonSerializer.Serialize(order);
             HttpContext.Session.SetString("order", jsonString);
 
@@ -136,7 +115,6 @@ namespace GeorgianBudgetSaver.Controllers
         public IActionResult Payment()
         {
             var orderObj = JsonConvert.DeserializeObject<Models.Order>(HttpContext.Session.GetString("order"));
-            Console.WriteLine($"obj: {orderObj.Total}");
             ViewData["Total"] = orderObj.Total;
             ViewData["PublishableKey"] = _configuration.GetSection("Stripe")["PublishableKey"];
 

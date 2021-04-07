@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/x-icon" href="~/img/favicon.ico"/>
+    <link rel="icon" type="image/x-icon" href="~/img/favicon.ico" />
     <title>GeorgianBudgetSaver</title>
     @*Used External CSS Library: https://getbootstrap.com/*@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
@@ -22,9 +22,6 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
-                        @*<li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>*@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-dark" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Program</a>
                             <div class="dropdown-menu">
@@ -35,13 +32,6 @@
                                 }
                             </div>
                         </li>
-                        @*<li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account</a>
-                                <div class="dropdown-menu">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Accounts" asp-action="Index">View Accounts</a>
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Accounts" asp-action="Create">Create Account</a>
-                                </div>
-                            </li>*@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-dark" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Book</a>
                             <div class="dropdown-menu">
@@ -57,12 +47,9 @@
             </div>
         </nav>
     </header>
-    @*<div class="container">*@
     <main role="main" style="margin-top:3.5rem">
         @RenderBody()
     </main>
-    @*</div>*@
-
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2021 - Yi-Tzeng Chen - 200437546 - Server-Side Scripting-ASP.NET - COMP2084 - <a asp-controller="Home" asp-action="Privacy">Privacy</a>

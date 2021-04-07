@@ -1,7 +1,4 @@
 ﻿@model GeorgianBudgetSaver.Models.Book
-@*@{
-        ViewData["Title"] = "Details";
-    }*@
 
 <div class="card box-shadow pt-4 pb-4 pr-5 pl-5" style="margin: 6rem auto; width: 70%; border-top: .3rem #A9DDD6 solid">
     <div class="d-flex flex-row-reverse">
@@ -42,85 +39,36 @@
                         </dd>
                     </dl>
                 </p>
-               @* <p class="card-text">*@
-                    <div class="row">
-                        <div class="col-3">
-                            <small class="text-muted">Price: @String.Format("{0:c}", Model.Price)@("(CAD)")</small>
-                        </div>
-                        <div class="col-9">
-                            @if (Model.InStock && !User.IsInRole("Administrator"))
+                <div class="row">
+                    <div class="col-3">
+                        <small class="text-muted">Price: @String.Format("{0:c}", Model.Price)@("(CAD)")</small>
+                    </div>
+                    <div class="col-9">
+                        @if (Model.InStock && !User.IsInRole("Administrator"))
+                        {
+                            if (!ViewBag.InCart)
                             {
-                                if (!ViewBag.InCart)
-                                {
-                                    <form asp-action="AddToCart" method="post" style="height:100%">
-                                        <input type="hidden" asp-for="@Model.BookId" name="productId" />
-                                        <input type="hidden" value="1" name="quantity" />
-                                        <input type="hidden" asp-for="@Model.Price" name="price" />
-                                        <button type="submit" class="btn add-to-cart btn-sm" style="height:100%"><i class="bi bi-cart-plus-fill" style="font-size:1rem;"></i> Add To Cart</button>
-                                    </form>
-
-                                }
-                                else { 
-                                
-                                    <form asp-controller="Carts" asp-action="RemoveFromCart" method="post" style="height:100%">
-                                        <input type="hidden" asp-for="@Model.BookId" name="productId" />
-                                        <button type="submit" class="btn btn-sm btn-danger" style="height:100%"><i class="bi bi-x-circle-fill" style="font-size:1rem;"></i> Remove From Cart</button>
-                                    </form>
-                                }
+                                <form asp-action="AddToCart" method="post" style="height:100%">
+                                    <input type="hidden" asp-for="@Model.BookId" name="productId" />
+                                    <input type="hidden" value="1" name="quantity" />
+                                    <input type="hidden" asp-for="@Model.Price" name="price" />
+                                    <button type="submit" class="btn add-to-cart btn-sm" style="height:100%"><i class="bi bi-cart-plus-fill" style="font-size:1rem;"></i> Add To Cart</button>
+                                </form>
 
                             }
-                        </div>
+                            else
+                            {
+
+                                <form asp-controller="Carts" asp-action="RemoveFromCart" method="post" style="height:100%">
+                                    <input type="hidden" asp-for="@Model.BookId" name="productId" />
+                                    <button type="submit" class="btn btn-sm btn-danger" style="height:100%"><i class="bi bi-x-circle-fill" style="font-size:1rem;"></i> Remove From Cart</button>
+                                </form>
+                            }
+
+                        }
                     </div>
-             @*   </p>*@
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-@*<div class="table-view">
-        <h1>Book Info</h1>
-
-        <div class="col-md-6 form-card">
-            <hr />
-            <dl class="row">
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Title)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Title)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Author)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Author)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.BoughtDate)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.BoughtDate)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Price)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Price)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.InStock)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.InStock)
-                </dd>
-                <dt class="col-sm-2">
-                    Program
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.CourseProgram.Title)
-                </dd>
-            </dl>
-            <div>
-            </div>
-        </div>
-    </div>*@

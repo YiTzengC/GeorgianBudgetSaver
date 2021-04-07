@@ -72,7 +72,7 @@ namespace GeorgianBudgetSaver.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostAsync(IFormFile photo)
         {
-            Console.WriteLine($"photo: {photo==null}");
+            Console.WriteLine($"photo: {photo == null}");
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
@@ -112,8 +112,10 @@ namespace GeorgianBudgetSaver.Areas.Identity.Pages.Account.Manage
                     _context.SaveChanges();
                 }
                 //no img insert
-                else {
-                    _context.Add(new AccountImg {
+                else
+                {
+                    _context.Add(new AccountImg
+                    {
                         user = User.Identity.Name,
                         img = fileName
                     });

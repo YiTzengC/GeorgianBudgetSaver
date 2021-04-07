@@ -64,12 +64,6 @@ body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
     background-color: #e6e6e6;
-    /*padding: 3rem 5rem;*/
-    /* background-image: url("../img/city.jpg");
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;*/
 }
 
 .footer {
@@ -98,8 +92,9 @@ body {
     border-radius: .5rem;
     margin: 6rem auto 6rem auto;
 }
+
     .program-container h1 {
-        color:white;
+        color: white;
         margin-bottom: 2rem;
     }
 
@@ -120,17 +115,17 @@ body {
     padding: 10rem 6rem;
 }
 
-    .program-intro h2 {
+.program-intro h2 {
         text-align: left;
         color: white;
     }
 
-    .program-intro p {
+.program-intro p {
         text-align: left;
         color: white;
     }
 
-    .program-intro div {
+.program-intro div {
         text-align: left;
         height: 10rem;
         margin: auto 0;
@@ -153,17 +148,17 @@ body {
     padding: 10rem 6rem;
 }
 
-    .book-intro h2 {
+.book-intro h2 {
         text-align: center;
         color: white;
     }
 
-    .book-intro p {
+.book-intro p {
         text-align: center;
         color: white;
     }
 
-    .book-intro div {
+.book-intro div {
         height: 10rem;
         margin: auto 0;
     }
@@ -221,7 +216,7 @@ body {
     border: 1px #284B63 solid;
 }
 
-    .add-to-cart:hover {
+.add-to-cart:hover {
         color: white;
         background-color: #284B63;
     }
@@ -239,6 +234,7 @@ body {
         color: white;
         background-color: #4a8488;
     }
+
 .login-btn {
     color: white;
     background-color: #284B63;
@@ -252,24 +248,27 @@ body {
         color: white;
         background-color: #376686;
     }
+
 .remove-from-cart {
     line-height: 0px;
     font-size: 1.3rem;
     vertical-align: text-bottom;
     color: #ca1e1e;
 }
-    .remove-from-cart:hover {
-    
-    color:red;
+
+.remove-from-cart:hover {
+        color: red;
     }
+
 .order-detail {
     font-size: 2rem;
     line-height: 0px;
-    vertical-align:middle;
+    vertical-align: middle;
     color: black;
 }
-    .order-detail:hover {
-    color:darkgray;
+
+.order-detail:hover {
+        color: darkgray;
     }
 
 .nav-pills .nav-link.active {
@@ -280,14 +279,12 @@ body {
     border: none;
     background-color: white;
     display: block;
-    width: 100%;/*
-    font-size: 1.2rem;*/
+    width: 100%;
     font-weight: bold;
     text-align: justify;
     padding: 0 0;
 }
 
-    .book-detail-btn:hover {
-    
+.book-detail-btn:hover {
         color: darkgray;
     }

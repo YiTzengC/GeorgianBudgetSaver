@@ -41,7 +41,6 @@ namespace GeorgianBudgetSaver.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                Console.WriteLine($"searchString: {searchString}");
                 books = books.Where(s => s.Title.Contains(searchString));
             }
 
@@ -67,23 +66,6 @@ namespace GeorgianBudgetSaver.Controllers
             return View(applicationDbContext);
         }
 
-        /*[AllowAnonymous]
-        [HttpPost]
-        [ActionName("ListByProgram")]
-        public async Task<IActionResult> Index(int id)
-        {
-            *//*if (id == null)
-            {
-                return NotFound();
-            }*//*
-
-            var books = await _context.Books
-                 .Include(b => b.CourseProgram)
-                 .Where(m => m.CourseProgramId == id).ToListAsync();
-
-            return View(books);
-        }*/
-
         // GET: Books/Details/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -103,9 +85,10 @@ namespace GeorgianBudgetSaver.Controllers
                 return NotFound();
             }
             string cartSession = HttpContext.Session.GetString("cart");
-            if (cartSession != null) {
+            if (cartSession != null)
+            {
                 List<Cart> cartList = JsonConvert.DeserializeObject<List<Cart>>(cartSession);
-                ViewBag.InCart = cartList.Exists(b=>b.BookId == bookId);
+                ViewBag.InCart = cartList.Exists(b => b.BookId == bookId);
             }
 
             return View(book);
@@ -144,7 +127,6 @@ namespace GeorgianBudgetSaver.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            /* ViewData["AccountId"] = new SelectList(_context.Accounts, "AccountId", "AccountId", book.AccountId);*/
             ViewData["CourseProgramId"] = new SelectList(_context.CoursePrograms, "CourseProgramId", "CourseProgramId", book.CourseProgramId);
             return View(book);
         }
@@ -168,7 +150,6 @@ namespace GeorgianBudgetSaver.Controllers
             {
                 return NotFound();
             }
-            /*ViewData["AccountId"] = new SelectList(_context.Accounts, "AccountId", "Username", book.AccountId);*/
             ViewData["CourseProgramId"] = new SelectList(_context.CoursePrograms, "CourseProgramId", "Title", book.CourseProgramId);
             return View(book);
         }
@@ -181,7 +162,6 @@ namespace GeorgianBudgetSaver.Controllers
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int id, [Bind("Photo,BookId,Title,Author,BoughtDate,Price,InStock,CourseProgramId,AccountId")] Book book, IFormFile photo)
         {
-            Console.WriteLine($"photo: {photo}");
             if (!book.InStock)
             {
                 RedirectToAction("Index");
@@ -223,7 +203,6 @@ namespace GeorgianBudgetSaver.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            /*ViewData["AccountId"] = new SelectList(_context.Accounts, "AccountId", "AccountId", book.AccountId);*/
             ViewData["CourseProgramId"] = new SelectList(_context.CoursePrograms, "CourseProgramId", "CourseProgramId", book.CourseProgramId);
             return View(book);
         }
@@ -237,33 +216,11 @@ namespace GeorgianBudgetSaver.Controllers
                 return NotFound();
             }
 
-            /*var book = await _context.Books
-                *//*.Include(b => b.Account)*//*
-                .Include(b => b.CourseProgram)
-                .FirstOrDefaultAsync(m => m.BookId == id);
-            if (book == null)
-            {
-                return NotFound();
-            }
-
-            return View(book);*/
-
             var book = await _context.Books.FindAsync(id);
             _context.Books.Remove(book);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-        // POST: Books/Delete/5
-        /*[HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var book = await _context.Books.FindAsync(id);
-            _context.Books.Remove(book);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }*/
 
         private bool BookExists(int id)
         {
@@ -273,7 +230,6 @@ namespace GeorgianBudgetSaver.Controllers
         [HttpPost]
         public IActionResult AddToCart(int productId, int quantity, decimal price)
         {
-            Console.WriteLine($"product id: {productId}, quantity: {quantity} ,price: {price}");
             string jsonString = "";
             if (HttpContext.Session.GetString("cart") == null)
             {
