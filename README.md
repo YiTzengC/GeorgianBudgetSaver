@@ -24,3 +24,7 @@ https://georgianbudgetsaver.azurewebsites.net
 
 - added search funtionality
 - one button update db and retrieve data from Georgian College website(function RetrieveFromGCAsync() in CourseProgramsController)
+
+# Test Account:
+- (Administrator) admin@gc.ca / Test123$
+- (Customer) customer@gc.ca / Test456$
