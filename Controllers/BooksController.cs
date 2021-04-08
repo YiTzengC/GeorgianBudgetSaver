@@ -30,6 +30,8 @@ namespace GeorgianBudgetSaver.Controllers
                         select m;
             if (!User.IsInRole("Administrator"))
             {
+
+
                 if (HttpContext.Session.GetString("cart") != null)
                 {
                     List<Cart> cartList = JsonConvert.DeserializeObject<List<Cart>>(HttpContext.Session.GetString("cart"));
