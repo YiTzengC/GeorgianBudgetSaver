@@ -30,6 +30,14 @@ namespace GeorgianBudgetSaver.Controllers
                         select m;
             if (!User.IsInRole("Administrator"))
             {
+                if (HttpContext.Session.GetString("cart") != null)
+                {
+                    List<Cart> cartList = JsonConvert.DeserializeObject<List<Cart>>(HttpContext.Session.GetString("cart"));
+                    cartList.ForEach((obj) =>
+                    {
+                        books = books.Where(b => b.BookId != obj.BookId);
+                    });
+                }
                 books = books.Where(b => b.InStock == true);
             }
             if (id != null)
@@ -51,16 +59,16 @@ namespace GeorgianBudgetSaver.Controllers
         {
             var applicationDbContext = await _context.Books.Include(b => b.CourseProgram).OrderBy(b => b.Title).ToListAsync();
             // do not dislpay item in cart
-            if (HttpContext.Session.GetString("cart") != null)
-            {
-                List<Cart> cartList = JsonConvert.DeserializeObject<List<Cart>>(HttpContext.Session.GetString("cart"));
-                cartList.ForEach((obj) =>
-                {
-                    applicationDbContext = applicationDbContext.Where(b => b.BookId != obj.BookId).ToList();
-                });
-            }
             if (!User.IsInRole("Administrator"))
             {
+                if (HttpContext.Session.GetString("cart") != null)
+                {
+                    List<Cart> cartList = JsonConvert.DeserializeObject<List<Cart>>(HttpContext.Session.GetString("cart"));
+                    cartList.ForEach((obj) =>
+                    {
+                        applicationDbContext = applicationDbContext.Where(b => b.BookId != obj.BookId).ToList();
+                    });
+                }
                 applicationDbContext = applicationDbContext.Where(b => b.InStock == true).ToList();
             }
             return View(applicationDbContext);
