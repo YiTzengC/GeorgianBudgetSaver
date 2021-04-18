@@ -14,7 +14,7 @@ want efficiently. Furthermore, we save the planet as well. A new book which will
 means that lots of energy and plants are saved. Buying used books not only saves our pocket and also
 treat our planet friendly.
 # Live Link:
-https://georgianbudgetsaver.azurewebsites.net
+https://georgianbudgetsaver.azurewebsites.net (No longer avilable due to outage of credit on Azure)
 # Reference:
 ### CSS Library:
 - https://getbootstrap.com/
