@@ -46,6 +46,7 @@ namespace GeorgianBudgetSaver
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddDatabaseDeveloperPageExceptionFilter();
             //swagger
             services.AddSwaggerGen();
         }
@@ -62,7 +63,7 @@ namespace GeorgianBudgetSaver
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                app.UseMigrationsEndPoint();
             }
             else
             {
