@@ -1,4 +1,5 @@
 ﻿@model GeorgianBudgetSaver.Models.Book
+@using System.Globalization
 
 <div class="card box-shadow pt-4 pb-4 pr-5 pl-5" style="margin: 6rem auto; width: 70%; border-top: .3rem #A9DDD6 solid">
     <div class="d-flex flex-row-reverse">
@@ -10,14 +11,14 @@
         </div>
         <div class="col-md-9">
             <div class="card-body">
-                <h5 class="card-title">@Html.DisplayNameFor(model => model.Title)</h5>
+                <h5 class="card-title">@Html.DisplayFor(model => model.Title)</h5>
                 <p class="card-text">
                     <dl class="row">
                         <dt class="col-sm-3">
                             Author:
                         </dt>
                         <dd class="col-sm-9">
-                            @Html.DisplayNameFor(model => model.Author)
+                            @Html.DisplayFor(model => model.Author)
                         </dd>
                         <dt class="col-sm-3">
                             Program:
@@ -41,7 +42,7 @@
                 </p>
                 <div class="row">
                     <div class="col-3">
-                        <small class="text-muted">Price: @String.Format("{0:c}", Model.Price)@("(CAD)")</small>
+                        <small class="text-muted">Price: @String.Format(new CultureInfo("en-US"), "{0:c}", Model.Price)@("(CAD)")</small>
                     </div>
                     <div class="col-9">
                         @if (Model.InStock && !User.IsInRole("Administrator"))

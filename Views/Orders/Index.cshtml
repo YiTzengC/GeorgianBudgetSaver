@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<GeorgianBudgetSaver.Models.Order>
-
+@using System.Globalization
 <div class="container" style="margin:6rem auto; width:60%;">
     @if (User.IsInRole("Administrator"))
     {
@@ -19,7 +19,7 @@
                     <small class="text-muted">Placed on: @String.Format("{0:d}", item.OrderDate)</small>
                 </div>
                 <form asp-controller="OrderDetails" asp-action="DetailsWithOrder" method="post" class="align-items-center">
-                    <span class="align-middle">Total: @String.Format("{0:c}", item.Total)@("(CAD)")</span>
+                    <span class="align-middle">Total: @String.Format(new CultureInfo("en-US"),"{0:c}", item.Total)@("(CAD)")</span>
                     <input type="hidden" asp-for="@item.OrderId" name="orderId" />
                     <button type="submit" class="btn order-detail"><i class="bi bi-chevron-right"></i></button>
                 </form>

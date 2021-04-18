@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<GeorgianBudgetSaver.Models.OrderDetail>
-
+@using System.Globalization
 
 <div class="form-card" style="margin:7rem auto 6rem auto; width:80%; padding:3rem 5rem; border-top:.3rem #2b4570 solid;box-shadow: 2px 3px 5px #676666;">
     <div class="d-flex justify-content-between lh-condensed">
@@ -85,7 +85,7 @@
                             </dl>
                         </p>
                         <p class="card-text">
-                            <small class="text-muted">Price: @String.Format("{0:c}", item.Book.Price)@("(CAD)")</small>
+                            <small class="text-muted">Price: @String.Format(new CultureInfo("en-US"), "{0:c}", item.Book.Price)@("(CAD)")</small>
                         </p>
                     </div>
                 </div>
@@ -95,6 +95,6 @@
     <hr />
     <div class="d-flex justify-content-between lh-condensed">
         <a class="btn btn-outline-dark" asp-controller="Orders" asp-action="Index">Back To Orders</a>
-        <span>Total:  @String.Format("{0:c}", ViewBag.Order.Total)@("(CAD)")</span>
+        <span>Total:  @String.Format(new CultureInfo("en-US"), "{0:c}", ViewBag.Order.Total)@("(CAD)")</span>
     </div>
 </div>
