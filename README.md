@@ -1,5 +1,5 @@
-# ASP.NET - Course Project - COMP2084 
-- Yi-Tzneg Chen - 200437546
+# ASP.NET Core
+- Yi-Tzneg Chen
 # Purpose:
 I will make a web application for students who study in Georgian College to sell their used
 textbooks. It is important how to save money when studying because we will need to buy course
@@ -20,11 +20,6 @@ https://georgianbudgetsaver.azurewebsites.net (No longer avilable due to outage 
 - https://getbootstrap.com/
 ### Nutget Package:
 - https://html-agility-pack.net/
-# Assignment2 Bonus:
-
-- added search funtionality
-- one button update db and retrieve data from Georgian College website(function RetrieveFromGCAsync() in CourseProgramsController)
-
-# Test Account:
-- (Administrator) admin@gc.ca / Test123$
-- (Customer) customer@gc.ca / Test456$
+# Demo
+## View Order:
+![Alt Text](https://media.giphy.com/media/dPPfVDhCM262u33Vwi/giphy.gif)
