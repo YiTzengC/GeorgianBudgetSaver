@@ -21,5 +21,20 @@ https://georgianbudgetsaver.azurewebsites.net (No longer avilable due to outage 
 ### Nutget Package:
 - https://html-agility-pack.net/
 # Demo
+## List Used Books:
+![books](demo/books.png)
+## List Programs:
+![program](demo/program.png)
+## Authentication:
+![register](demo/register.png)
+![login](demo/login.png)
+## Google OAuth:
+![googleOAuth](demo/googleAuth.gif)
+## Shopping Cart:
+![cart](demo/cart.png)
+## Checkout with Stripe:
+![checkout](demo/checkout.gif)
+## Account Setting:
+![setting](demo/setting.png)
 ## View Order:
-![Alt Text](demo/order.gif)
+![order](demo/order.gif)
